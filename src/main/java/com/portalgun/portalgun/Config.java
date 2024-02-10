@@ -2,6 +2,7 @@ package com.portalgun.portalgun;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -21,7 +22,7 @@ public class Config
 {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
-    private static final ForgeConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
+    /*private static final ForgeConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
             .comment("Whether to log the dirt block on common setup")
             .define("logDirtBlock", true);
 
@@ -36,7 +37,15 @@ public class Config
     // a list of strings that are treated as resource locations for items
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
             .comment("A list of items to log on common setup.")
-            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
+            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);*/
+
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> PORTALABLE_BLOCK_STRINGS = BUILDER
+            .comment("A list of (non-)portalable blocks.")
+            .defineListAllowEmpty("portalable_blocks", List.of(), Config::validateBlockName);
+
+    private static final ForgeConfigSpec.BooleanValue IS_WHITELIST_MODE = BUILDER
+            .comment("Whether the list of (non-)portalable blocks is for portalable blocks or non-portalable blocks.")
+            .define("is_whitelist_mode", false);
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
@@ -44,22 +53,31 @@ public class Config
     public static int magicNumber;
     public static String magicNumberIntroduction;
     public static Set<Item> items;
+    public static Set<Block> portalable_blocks;
+    public static boolean is_whitelist_mode;
 
     private static boolean validateItemName(final Object obj)
     {
         return obj instanceof final String itemName && ForgeRegistries.ITEMS.containsKey(new ResourceLocation(itemName));
     }
 
+    private static boolean validateBlockName(final Object obj) {
+        return obj instanceof final String blockName && ForgeRegistries.BLOCKS.containsKey(new ResourceLocation(blockName));
+    }
+
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
     {
-        logDirtBlock = LOG_DIRT_BLOCK.get();
+        /*logDirtBlock = LOG_DIRT_BLOCK.get();
         magicNumber = MAGIC_NUMBER.get();
         magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
+        is_whitelist_mode = IS_WHITELIST_MODE.get();
 
         // convert the list of strings into a set of items
         items = ITEM_STRINGS.get().stream()
                 .map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName)))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toSet());*/
+        
+        portalable_blocks = PORTALABLE_BLOCK_STRINGS.get().stream().map(blockName -> ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockName))).collect(Collectors.toSet());
     }
 }

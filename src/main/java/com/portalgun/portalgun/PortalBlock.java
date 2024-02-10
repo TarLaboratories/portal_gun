@@ -8,8 +8,16 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -17,11 +25,15 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 @SuppressWarnings("unused")
-public class PortalBlock extends Block {
+public class PortalBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACE = DirectionProperty.create("face");
     public static final DirectionProperty FACING = DirectionProperty.create("facing");
     public static final BooleanProperty IS_ORANGE = BooleanProperty.create("is_orange");
@@ -56,5 +68,77 @@ public class PortalBlock extends Block {
 
     public Class<PortalBlockBlockEntity> getBlockEntityClass() {
         return PortalBlockBlockEntity.class;
+    }
+
+    @Override
+    public PortalBlockBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new PortalBlockBlockEntity(RegistryObject.create(new ResourceLocation("portalgun:portal_block_blockentity"), ForgeRegistries.BLOCK_ENTITY_TYPES).get(), pos, state);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState state = this.defaultBlockState();
+        long distance_x, distance_y, distance_z;
+        distance_x = context.getClickedPos().getX() - context.getPlayer().getBlockX();
+        distance_y = context.getClickedPos().getY() - context.getPlayer().getBlockY();
+        distance_z = context.getClickedPos().getZ() - context.getPlayer().getBlockZ();
+        if (Math.abs(distance_x) >= Math.abs(distance_z)) {
+            if (distance_x > 0) state = state.setValue(PortalBlock.FACING, Direction.WEST);
+            else state = state.setValue(PortalBlock.FACING, Direction.EAST);
+        } /*else if (Math.abs(distance_y) >= Math.abs(distance_x) & Math.abs(distance_y) >= Math.abs(distance_z)) {
+            if (distance_y > 0) state = state.setValue(PortalBlock.FACING, Direction.DOWN);
+            else state = state.setValue(PortalBlock.FACING, Direction.UP);
+        }*/ else {
+            if (distance_z > 0) state = state.setValue(PortalBlock.FACING, Direction.NORTH);
+            else state = state.setValue(PortalBlock.FACING, Direction.SOUTH);
+        }
+        state.setValue(PortalBlock.FACE, context.getClickedFace());
+        return state;
+    }
+
+    @Override
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        try {
+            if (entity.isOnPortalCooldown()) return;
+            if (!state.getValue(PortalBlock.IS_ACTIVE)) return;
+            BlockPos link_pos = ((PortalBlockBlockEntity) level.getBlockEntity(pos)).link_pos;
+            if (link_pos == null) return;
+            if (entity.getType() == EntityType.PLAYER) entity = (Player) entity;
+            entity.setPos(link_pos.relative(level.getBlockState(link_pos).getValue(PortalBlock.FACE)).relative(level.getBlockState(link_pos).getValue(PortalBlock.FACING)).getCenter());
+            float old_rotation = entity.getYRot();
+            //float headRot = entity.getYHeadRot();
+            //LOGGER.info("Old Y rotation: {}", rot);
+            //LOGGER.info("Going from portal with face {}", state.getValue(PortalBlock.FACE).toString());
+            Vec3 emv = entity.getDeltaMovement();
+            LOGGER.info("Old movement vector: {}", emv);
+            switch (state.getValue(PortalBlock.FACE)) {
+                case DOWN: emv = new Vec3(emv.x, emv.z, -emv.y); break;
+                case EAST: entity.setYRot(entity.rotate(Rotation.CLOCKWISE_90)); emv = new Vec3(-emv.z, emv.y, emv.x); break;
+                case NORTH: entity.setYRot(entity.rotate(Rotation.CLOCKWISE_180)); emv = new Vec3(-emv.x, emv.y, -emv.z); break;
+                case SOUTH: break;
+                case UP: emv = new Vec3(emv.x, -emv.z, emv.y); break;
+                case WEST: entity.setYRot(entity.rotate(Rotation.COUNTERCLOCKWISE_90)); emv = new Vec3(emv.z, emv.y, -emv.x); break;
+            }
+            //LOGGER.info("This should be around 0 or smth: {}", entity.getYRot());
+            //LOGGER.info("To portal with face {}", level.getBlockState(link_pos).getValue(PortalBlock.FACE));
+            LOGGER.info("Middle movement vector: {}", emv);
+            switch (level.getBlockState(link_pos).getValue(PortalBlock.FACE)) {
+                case DOWN: entity.teleportRelative(0, -1, 0); emv = new Vec3(emv.x, emv.z, -emv.y); break;
+                case EAST: entity.setYRot(entity.rotate(Rotation.CLOCKWISE_90)); emv = new Vec3(-emv.z, emv.y, emv.x); break;
+                case NORTH: break;
+                case SOUTH: entity.setYRot(entity.rotate(Rotation.CLOCKWISE_180)); emv = new Vec3(-emv.x, emv.y, -emv.z); break;
+                case UP: emv = new Vec3(emv.x, -emv.z, emv.y); break;
+                case WEST: entity.setYRot(entity.rotate(Rotation.COUNTERCLOCKWISE_90)); emv = new Vec3(emv.z, emv.y, -emv.x); break;
+            }
+            LOGGER.info("New movement vector: {}", emv);
+            entity.setDeltaMovement(emv);
+            //entity.setOldPosAndRot();
+            //LOGGER.info("Teleported successfully!");
+            //LOGGER.info("New Y rotation: {}", entity.getYRot());
+            entity.setPortalCooldown(5);
+        } catch (Exception e) {
+            LOGGER.error(e.toString());
+            e.printStackTrace();
+        }
     }
 }
