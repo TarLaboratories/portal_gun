@@ -1,0 +1,15 @@
+{
+    "textures": {
+        "particle": "minecraft:block/obsidian",
+        "portal_texture_orange": "portalgun:block/portal_block_orange",
+        "portal_texture_blue": "portalgun:block/portal_block_blue"
+    }, "elements": [
+        {
+            "from": [0, 0, 0],
+            "to": [16, 16, 16],
+            "faces": {
+                "north": {"texture": "#portal_texture_blue"}
+            }
+        }
+    ]
+}

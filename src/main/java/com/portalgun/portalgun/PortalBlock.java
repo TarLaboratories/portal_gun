@@ -110,7 +110,7 @@ public class PortalBlock extends Block implements EntityBlock {
             //LOGGER.info("Old Y rotation: {}", rot);
             //LOGGER.info("Going from portal with face {}", state.getValue(PortalBlock.FACE).toString());
             Vec3 emv = entity.getDeltaMovement();
-            LOGGER.info("Old movement vector: {}", emv);
+            //LOGGER.info("Old movement vector: {}", emv);
             switch (state.getValue(PortalBlock.FACE)) {
                 case DOWN: emv = new Vec3(emv.x, emv.z, -emv.y); break;
                 case EAST: entity.setYRot(entity.rotate(Rotation.CLOCKWISE_90)); emv = new Vec3(-emv.z, emv.y, emv.x); break;
@@ -121,7 +121,7 @@ public class PortalBlock extends Block implements EntityBlock {
             }
             //LOGGER.info("This should be around 0 or smth: {}", entity.getYRot());
             //LOGGER.info("To portal with face {}", level.getBlockState(link_pos).getValue(PortalBlock.FACE));
-            LOGGER.info("Middle movement vector: {}", emv);
+            //LOGGER.info("Middle movement vector: {}", emv);
             switch (level.getBlockState(link_pos).getValue(PortalBlock.FACE)) {
                 case DOWN: entity.teleportRelative(0, -1, 0); emv = new Vec3(emv.x, emv.z, -emv.y); break;
                 case EAST: entity.setYRot(entity.rotate(Rotation.CLOCKWISE_90)); emv = new Vec3(-emv.z, emv.y, emv.x); break;
@@ -130,12 +130,12 @@ public class PortalBlock extends Block implements EntityBlock {
                 case UP: emv = new Vec3(emv.x, -emv.z, emv.y); break;
                 case WEST: entity.setYRot(entity.rotate(Rotation.COUNTERCLOCKWISE_90)); emv = new Vec3(emv.z, emv.y, -emv.x); break;
             }
-            LOGGER.info("New movement vector: {}", emv);
+            //LOGGER.info("New movement vector: {}", emv);
             entity.setDeltaMovement(emv);
             //entity.setOldPosAndRot();
             //LOGGER.info("Teleported successfully!");
             //LOGGER.info("New Y rotation: {}", entity.getYRot());
-            entity.setPortalCooldown(5);
+            entity.setPortalCooldown(1);
         } catch (Exception e) {
             LOGGER.error(e.toString());
             e.printStackTrace();
