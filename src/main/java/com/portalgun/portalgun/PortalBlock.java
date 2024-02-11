@@ -9,10 +9,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -29,6 +31,11 @@ import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.world.ForgeChunkManager;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -72,7 +79,7 @@ public class PortalBlock extends Block implements EntityBlock {
 
     @Override
     public PortalBlockBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new PortalBlockBlockEntity(RegistryObject.create(new ResourceLocation("portalgun:portal_block_blockentity"), ForgeRegistries.BLOCK_ENTITY_TYPES).get(), pos, state);
+        return new PortalBlockBlockEntity(pos, state);
     }
 
     @Override
@@ -101,6 +108,13 @@ public class PortalBlock extends Block implements EntityBlock {
         try {
             if (entity.isOnPortalCooldown()) return;
             if (!state.getValue(PortalBlock.IS_ACTIVE)) return;
+            ServerLevel serverlevel = null;
+            long chunk = 0;
+            if (!level.isLoaded(pos) & !level.isClientSide) {
+                serverlevel = (ServerLevel) level;
+                chunk = new ChunkPos(pos).toLong();
+                ForgeChunkManager.forceChunk(serverlevel, "portalgun", pos, (int) chunk, (int) (chunk >> 32), true, false);
+            }
             BlockPos link_pos = ((PortalBlockBlockEntity) level.getBlockEntity(pos)).link_pos;
             if (link_pos == null) return;
             if (entity.getType() == EntityType.PLAYER) entity = (Player) entity;
@@ -136,6 +150,9 @@ public class PortalBlock extends Block implements EntityBlock {
             //LOGGER.info("Teleported successfully!");
             //LOGGER.info("New Y rotation: {}", entity.getYRot());
             entity.setPortalCooldown(1);
+            if (serverlevel != null) {
+                ForgeChunkManager.forceChunk(serverlevel, "portalgun", pos, (int) chunk, (int) (chunk >> 32), false, false);
+            }
         } catch (Exception e) {
             LOGGER.error(e.toString());
             e.printStackTrace();

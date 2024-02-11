@@ -20,6 +20,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
@@ -39,6 +41,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -148,6 +152,35 @@ public class PortalGunItem extends Item {
         return ((Config.portalable_blocks.contains(block)) ^ !Config.is_whitelist_mode) & block != Blocks.AIR & block != Blocks.VOID_AIR & block != Blocks.CAVE_AIR;
     }
 
-    //@Override
-    //public boolean mineBlock(ItemStack item, Level level, BlockState state, BlockPos pos, LivingEntity entity) {return false;}
+    public static void clearPortals(Level level, ItemStack item) {
+        CompoundTag tag = item.getOrCreateTag();
+        BlockEntity ORANGE_PORTAL_BLOCKENTITY = null;
+        BlockEntity BLUE_PORTAL_BLOCKENTITY = null;
+        if (tag.contains("orange_portal_pos")) ORANGE_PORTAL_BLOCKENTITY = level.getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("orange_portal_pos")));
+        if (tag.contains("blue_portal_pos")) BLUE_PORTAL_BLOCKENTITY = level.getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("blue_portal_pos")));
+        if (ORANGE_PORTAL_BLOCKENTITY != null) {((PortalBlockBlockEntity) level.getBlockEntity(ORANGE_PORTAL_BLOCKENTITY.getBlockPos().relative(ORANGE_PORTAL_BLOCKENTITY.getBlockState().getValue(PortalBlock.FACING)))).removePortal(); ((PortalBlockBlockEntity) ORANGE_PORTAL_BLOCKENTITY).removePortal();}
+        if (BLUE_PORTAL_BLOCKENTITY != null) {((PortalBlockBlockEntity) level.getBlockEntity(BLUE_PORTAL_BLOCKENTITY.getBlockPos().relative(BLUE_PORTAL_BLOCKENTITY.getBlockState().getValue(PortalBlock.FACING)))).removePortal();((PortalBlockBlockEntity) BLUE_PORTAL_BLOCKENTITY).removePortal();}
+        tag.remove("orange_portal_pos");
+        tag.remove("blue_portal_pos");
+        item.setTag(tag);
+    }
+
+    @SubscribeEvent
+    public static void EntityLeaveLevel(EntityLeaveLevelEvent event) {
+        Entity entity = event.getEntity();
+        Level level = event.getLevel();
+        if (entity.getType() != EntityType.PLAYER) return;
+        Player player = (Player) entity;
+        for (ItemStack item : player.getInventory().items) {
+            if (item.is(portalgun.PORTAL_GUN_ITEM.get())) {
+                clearPortals(level, item);
+            }
+        }
+    }
+
+    @Override
+    public boolean mineBlock(ItemStack item, Level level, BlockState state, BlockPos pos, LivingEntity entity) {
+        if (entity.isShiftKeyDown()) clearPortals(level, item);
+        return false;
+    }
 }

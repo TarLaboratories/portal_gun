@@ -66,8 +66,7 @@ public class portalgun
     // Creates a new Block with the id "portalgun:example_block", combining the namespace and path
     public static final RegistryObject<Block> PORTAL_BLOCK = BLOCKS.register("portal_block", () -> new PortalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).noCollission()));
     //static Block validBlocks = null;
-    static BlockEntitySupplier<PortalBlockBlockEntity> supplier = (BlockPos pos, BlockState state) -> new PortalBlockBlockEntity(null, pos, state);
-    public static final RegistryObject<BlockEntityType<?>> PORTAL_BLOCK_BLOCKSTATE = BLOCK_ENTITIES.register("portal_block_blockentity", () -> BlockEntityType.Builder.of(supplier, PORTAL_BLOCK.get()).build(null));
+    public static final RegistryObject<BlockEntityType<?>> PORTAL_BLOCK_BLOCKSTATE = BLOCK_ENTITIES.register("portal_block_blockentity", () -> BlockEntityType.Builder.of(PortalBlockBlockEntity::new, PORTAL_BLOCK.get()).build(null));
     // Creates a new BlockItem with the id "portalgun:example_block", combining the namespace and path
     public static final RegistryObject<Item> PORTAL_BLOCK_ITEM = ITEMS.register("portal_block", () -> new BlockItem(PORTAL_BLOCK.get(), new Item.Properties()));
     public static final RegistryObject<Item> PORTAL_GUN_ITEM = ITEMS.register("portal_gun", () -> new PortalGunItem(new Item.Properties()));
@@ -125,6 +124,7 @@ public class portalgun
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(PortalGunItem.class);
 
         // Register the item to a creative tab
         //modEventBus.addListener(this::addCreative);

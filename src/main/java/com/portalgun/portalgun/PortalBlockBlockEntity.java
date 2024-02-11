@@ -2,6 +2,7 @@ package com.portalgun.portalgun;
 
 import java.util.Optional;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -36,8 +37,8 @@ public class PortalBlockBlockEntity extends BlockEntity {
     public BlockState replaced_block_blockstate;
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public PortalBlockBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public PortalBlockBlockEntity(BlockPos pos, BlockState state) {
+        super(portalgun.PORTAL_BLOCK_BLOCKSTATE.get(), pos, state);
     }
         private static <S extends StateHolder<?, S>, T extends Comparable<T>> S setValueHelper(S p_129205_, Property<T> p_129206_, String p_129207_, CompoundTag p_129208_, CompoundTag p_129209_) {
         Optional<T> optional = p_129206_.getValue(p_129208_.getString(p_129207_));
@@ -109,6 +110,6 @@ public class PortalBlockBlockEntity extends BlockEntity {
         }
         //((PortalBlockBlockEntity) this.level.getBlockEntity(this.worldPosition.relative(this.getBlockState().getValue(PortalBlock.FACING)))).removePortal();
         this.level.setBlockAndUpdate(this.worldPosition, this.replaced_block_blockstate);
-        if (serverlevel != null & chunk != 0) ForgeChunkManager.forceChunk(serverlevel, "portalgun", this.worldPosition, (int) chunk, (int) (chunk >> 32), false, false);
+        if (serverlevel != null) ForgeChunkManager.forceChunk(serverlevel, "portalgun", this.worldPosition, (int) chunk, (int) (chunk >> 32), false, false);
     }
 }
