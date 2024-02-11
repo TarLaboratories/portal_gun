@@ -14,9 +14,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,7 +31,9 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -48,6 +52,14 @@ public class PortalBlock extends Block implements EntityBlock {
     //public static final IntegerProperty LINK_Y = IntegerProperty.create("link_y", 0, 400);
     //public static final IntegerProperty LINK_Z = IntegerProperty.create("link_z", 0, 6000);
     public static final BooleanProperty IS_ACTIVE = BooleanProperty.create("is_active");
+    private static final VoxelShape INSIDE = box(1.0D, 1.0D, 1.0D, 15.0D, 15.0D, 15.0D);
+    private static final VoxelShape UP_PANE = box(0.0D, 15.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+    private static final VoxelShape DOWN_PANE = box(0.0D, 0.0D, 0.0D, 1.0D, 16.0D, 16.0D);
+    private static final VoxelShape EAST_PANE = box(15.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+    private static final VoxelShape WEST_PANE = box(0.0D, 0.0D, 0.0D, 1.0D, 16.0D, 16.0D);
+    private static final VoxelShape SOUTH_PANE = box(0.0D, 0.0D, 15.0D, 16.0D, 16.0D, 16.0D);
+    private static final VoxelShape NORTH_PANE = box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 1.0D);
+    protected static final VoxelShape START_SHAPE = Shapes.join(Shapes.block(), INSIDE, BooleanOp.ONLY_FIRST);
     private static final Minecraft minecraft = Minecraft.getInstance();
     private BlockPos target_block_pos = null;
     private BlockState replaced_block = null;
@@ -58,7 +70,7 @@ public class PortalBlock extends Block implements EntityBlock {
         super(properties);
         this.registerDefaultState(
             defaultBlockState()
-                .setValue(FACE, Direction.NORTH)
+                .setValue(FACE, Direction.EAST)
                 .setValue(FACING, Direction.UP)
                 .setValue(IS_ORANGE, true)
                 //.setValue(LINK_X, 0)
@@ -75,6 +87,31 @@ public class PortalBlock extends Block implements EntityBlock {
 
     public Class<PortalBlockBlockEntity> getBlockEntityClass() {
         return PortalBlockBlockEntity.class;
+    }
+
+    public VoxelShape getShape(BlockState p_151964_, BlockGetter p_151965_, BlockPos p_151966_, CollisionContext p_151967_) {
+        VoxelShape shape = START_SHAPE;
+        switch (p_151964_.getValue(PortalBlock.FACE)) {
+            case DOWN: shape = Shapes.join(shape, DOWN_PANE, BooleanOp.ONLY_FIRST); break;
+            case EAST: shape = Shapes.join(shape, EAST_PANE, BooleanOp.ONLY_FIRST); break;
+            case NORTH: shape = Shapes.join(shape, NORTH_PANE, BooleanOp.ONLY_FIRST); break;
+            case SOUTH: shape = Shapes.join(shape, SOUTH_PANE, BooleanOp.ONLY_FIRST); break;
+            case UP: shape = Shapes.join(shape, UP_PANE, BooleanOp.ONLY_FIRST); break;
+            case WEST: shape = Shapes.join(shape, WEST_PANE, BooleanOp.ONLY_FIRST); break;
+        }
+        switch (p_151964_.getValue(PortalBlock.FACING)) {
+            case DOWN: shape = Shapes.join(shape, DOWN_PANE, BooleanOp.ONLY_FIRST); break;
+            case EAST: shape = Shapes.join(shape, EAST_PANE, BooleanOp.ONLY_FIRST); break;
+            case NORTH: shape = Shapes.join(shape, NORTH_PANE, BooleanOp.ONLY_FIRST); break;
+            case SOUTH: shape = Shapes.join(shape, SOUTH_PANE, BooleanOp.ONLY_FIRST); break;
+            case UP: shape = Shapes.join(shape, UP_PANE, BooleanOp.ONLY_FIRST); break;
+            case WEST: shape = Shapes.join(shape, WEST_PANE, BooleanOp.ONLY_FIRST); break;
+        }
+        return shape;
+    }
+
+    public VoxelShape getInteractionShape(BlockState p_151955_, BlockGetter p_151956_, BlockPos p_151957_) {
+        return INSIDE;
     }
 
     @Override

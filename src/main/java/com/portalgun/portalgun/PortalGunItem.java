@@ -59,6 +59,7 @@ public class PortalGunItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         //player.setYRot(player.rotate(Rotation.CLOCKWISE_180));
+        try {
         CompoundTag tag = player.getItemInHand(hand).getOrCreateTag();
         BlockEntity ORANGE_PORTAL_BLOCKENTITY = null;
         BlockEntity BLUE_PORTAL_BLOCKENTITY = null;
@@ -123,6 +124,10 @@ public class PortalGunItem extends Item {
             return super.use(level, player, hand);
         } else {
             player.displayClientMessage(Component.translatable("Cannot place portal here!"), true);
+        }
+        } catch (Exception e) {
+            player.displayClientMessage(Component.translatable("An error has occured! Removing all your portals..."), true);
+            clearPortals(level, player.getItemInHand(hand));
         }
         return super.use(level, player, hand);
     }

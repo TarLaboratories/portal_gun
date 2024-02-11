@@ -64,11 +64,11 @@ public class portalgun
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
     
     // Creates a new Block with the id "portalgun:example_block", combining the namespace and path
-    public static final RegistryObject<Block> PORTAL_BLOCK = BLOCKS.register("portal_block", () -> new PortalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).noCollission()));
+    public static final RegistryObject<Block> PORTAL_BLOCK = BLOCKS.register("portal_block", () -> new PortalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).destroyTime(-1)));
     //static Block validBlocks = null;
     public static final RegistryObject<BlockEntityType<?>> PORTAL_BLOCK_BLOCKSTATE = BLOCK_ENTITIES.register("portal_block_blockentity", () -> BlockEntityType.Builder.of(PortalBlockBlockEntity::new, PORTAL_BLOCK.get()).build(null));
     // Creates a new BlockItem with the id "portalgun:example_block", combining the namespace and path
-    public static final RegistryObject<Item> PORTAL_BLOCK_ITEM = ITEMS.register("portal_block", () -> new BlockItem(PORTAL_BLOCK.get(), new Item.Properties()));
+    //public static final RegistryObject<Item> PORTAL_BLOCK_ITEM = ITEMS.register("portal_block", () -> new BlockItem(PORTAL_BLOCK.get(), new Item.Properties()));
     public static final RegistryObject<Item> PORTAL_GUN_ITEM = ITEMS.register("portal_gun", () -> new PortalGunItem(new Item.Properties()));
     //public static final RegistryObject<Item> INFINITE_REACH_ITEM = ITEMS.register("infinite_reach_item", () -> new Item(new Item.Properties()));
     
@@ -78,7 +78,7 @@ public class portalgun
             .icon(() -> PORTAL_GUN_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(PORTAL_GUN_ITEM.get());
-                output.accept(PORTAL_BLOCK_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
+                //output.accept(PORTAL_BLOCK_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).build());
     
     //EntityType<?> PORTAL_ENTITY = EntityType.Builder.of(PortalEntity::new, MobCategory.MISC).sized(1.0F, 2.0F).fireImmune().updateInterval(1).build("portalgun:portal");
