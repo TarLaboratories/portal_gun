@@ -5,6 +5,7 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -65,11 +66,13 @@ public class portalgun
     
     // Creates a new Block with the id "portalgun:example_block", combining the namespace and path
     public static final RegistryObject<Block> PORTAL_BLOCK = BLOCKS.register("portal_block", () -> new PortalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).destroyTime(-1)));
+    //public static final RegistryObject<Block> APERTURESTONE_WIRE = BLOCKS.register("aperturestone_wire", () -> new ApertureStoneWire(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).noCollission()));
     //static Block validBlocks = null;
     public static final RegistryObject<BlockEntityType<?>> PORTAL_BLOCK_BLOCKSTATE = BLOCK_ENTITIES.register("portal_block_blockentity", () -> BlockEntityType.Builder.of(PortalBlockBlockEntity::new, PORTAL_BLOCK.get()).build(null));
     // Creates a new BlockItem with the id "portalgun:example_block", combining the namespace and path
     //public static final RegistryObject<Item> PORTAL_BLOCK_ITEM = ITEMS.register("portal_block", () -> new BlockItem(PORTAL_BLOCK.get(), new Item.Properties()));
     public static final RegistryObject<Item> PORTAL_GUN_ITEM = ITEMS.register("portal_gun", () -> new PortalGunItem(new Item.Properties()));
+    //public static final RegistryObject<Item> APERTURESTONE_WIRE_ITEM = ITEMS.register("aperturestone_wire", () -> new BlockItem(APERTURESTONE_WIRE.get(), new Item.Properties()));
     //public static final RegistryObject<Item> INFINITE_REACH_ITEM = ITEMS.register("infinite_reach_item", () -> new Item(new Item.Properties()));
     
     // Creates a creative tab with the id "portalgun:example_tab" for the example item, that is placed after the combat tab
@@ -78,8 +81,10 @@ public class portalgun
             .icon(() -> PORTAL_GUN_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(PORTAL_GUN_ITEM.get());
+                //output.accept(APERTURESTONE_WIRE_ITEM.get());
                 //output.accept(PORTAL_BLOCK_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
-            }).build());
+            }).title(Component.translatable("Portal Gun Mod"))
+            .build());
     
     //EntityType<?> PORTAL_ENTITY = EntityType.Builder.of(PortalEntity::new, MobCategory.MISC).sized(1.0F, 2.0F).fireImmune().updateInterval(1).build("portalgun:portal");
     /*@SubscribeEvent

@@ -7,6 +7,10 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
+import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.worldselection.WorldSelectionList.WorldListEntry;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -15,6 +19,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -35,12 +40,13 @@ public class PortalBlockBlockEntity extends BlockEntity {
 
     public BlockPos link_pos;
     public BlockState replaced_block_blockstate;
+    private static final Minecraft minecraft = Minecraft.getInstance();
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public PortalBlockBlockEntity(BlockPos pos, BlockState state) {
         super(portalgun.PORTAL_BLOCK_BLOCKSTATE.get(), pos, state);
     }
-        private static <S extends StateHolder<?, S>, T extends Comparable<T>> S setValueHelper(S p_129205_, Property<T> p_129206_, String p_129207_, CompoundTag p_129208_, CompoundTag p_129209_) {
+    private static <S extends StateHolder<?, S>, T extends Comparable<T>> S setValueHelper(S p_129205_, Property<T> p_129206_, String p_129207_, CompoundTag p_129208_, CompoundTag p_129209_) {
         Optional<T> optional = p_129206_.getValue(p_129208_.getString(p_129207_));
         if (optional.isPresent()) {
             return p_129205_.setValue(p_129206_, optional.get());
@@ -112,4 +118,12 @@ public class PortalBlockBlockEntity extends BlockEntity {
         this.level.setBlockAndUpdate(this.worldPosition, this.replaced_block_blockstate);
         if (serverlevel != null) ForgeChunkManager.forceChunk(serverlevel, "portalgun", this.worldPosition, (int) chunk, (int) (chunk >> 32), false, false);
     }
+
+    /*public void renderPortal() {
+        Entity cameraEntity = minecraft.cameraEntity;
+        Camera camera = minecraft.gameRenderer.getMainCamera();
+        ClientLevel newWorld = minecraft.level;
+        int renderDistance = 2;
+
+    }*/
 }
