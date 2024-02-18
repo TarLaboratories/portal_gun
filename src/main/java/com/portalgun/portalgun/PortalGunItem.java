@@ -44,13 +44,17 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickEmpty;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.api.distmarker.Dist;
 
 @SuppressWarnings("unused")
-
-public class PortalGunItem extends Item {
+@Mod.EventBusSubscriber(modid = portalgun.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+public class PortalGunItem extends Item implements ClickHandlingItem {
     private static final Logger LOGGER = LogUtils.getLogger();
     //private static final Minecraft minecraft = Minecraft.getInstance();
     
@@ -58,8 +62,7 @@ public class PortalGunItem extends Item {
         super(pProperties);
     }
 
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> shootPortal(Level level, Player player, InteractionHand hand, boolean is_leftclick) {
         //player.setYRot(player.rotate(Rotation.CLOCKWISE_180));
         try {
             CompoundTag tag = player.getItemInHand(hand).getOrCreateTag();
@@ -78,22 +81,22 @@ public class PortalGunItem extends Item {
             BlockState PORTAL_BLOCKSTATE = PORTAL_BLOCK.get().getStateForPlacement(new BlockPlaceContext(player, hand,getDefaultInstance(), res_block)).setValue(PortalBlock.FACE, res_block.getDirection());
             if ((PORTAL_BLOCKSTATE.getValue(PortalBlock.FACE) != Direction.UP) & (PORTAL_BLOCKSTATE.getValue(PortalBlock.FACE) != Direction.DOWN)) PORTAL_BLOCKSTATE = PORTAL_BLOCKSTATE.setValue(PortalBlock.FACING, Direction.DOWN);
             if (res_block != null & this.canPlacePortal(res_block.getBlockPos(), PORTAL_BLOCKSTATE.getValue(PortalBlock.FACE), PORTAL_BLOCKSTATE.getValue(PortalBlock.FACING), level)) {
-                if (ORANGE_PORTAL_BLOCKENTITY != null & !player.isShiftKeyDown() & !tag.contains("only_blue")) {((PortalBlockBlockEntity) ORANGE_PORTAL_BLOCKENTITY).removePortal(); ((PortalBlockBlockEntity) level.getBlockEntity(ORANGE_PORTAL_BLOCKENTITY.getBlockPos().relative(ORANGE_PORTAL_BLOCKENTITY.getBlockState().getValue(PortalBlock.FACING)))).removePortal();}
-                if (BLUE_PORTAL_BLOCKENTITY != null & (player.isShiftKeyDown() | tag.contains("only_blue"))) {((PortalBlockBlockEntity) BLUE_PORTAL_BLOCKENTITY).removePortal(); ((PortalBlockBlockEntity) level.getBlockEntity(BLUE_PORTAL_BLOCKENTITY.getBlockPos().relative(BLUE_PORTAL_BLOCKENTITY.getBlockState().getValue(PortalBlock.FACING)))).removePortal();}
+                if (ORANGE_PORTAL_BLOCKENTITY != null & !is_leftclick & !tag.contains("only_blue")) {((PortalBlockBlockEntity) ORANGE_PORTAL_BLOCKENTITY).removePortal(); ((PortalBlockBlockEntity) level.getBlockEntity(ORANGE_PORTAL_BLOCKENTITY.getBlockPos().relative(ORANGE_PORTAL_BLOCKENTITY.getBlockState().getValue(PortalBlock.FACING)))).removePortal();}
+                if (BLUE_PORTAL_BLOCKENTITY != null & (is_leftclick | tag.contains("only_blue"))) {((PortalBlockBlockEntity) BLUE_PORTAL_BLOCKENTITY).removePortal(); ((PortalBlockBlockEntity) level.getBlockEntity(BLUE_PORTAL_BLOCKENTITY.getBlockPos().relative(BLUE_PORTAL_BLOCKENTITY.getBlockState().getValue(PortalBlock.FACING)))).removePortal();}
                 //BlockState PORTAL_BLOCKSTATE = PORTAL_BLOCK.get().getStateForPlacement(new BlockPlaceContext(player, hand,getDefaultInstance(), res_block)).setValue(PortalBlock.FACE, res_block.getDirection());
                 //else if ((PORTAL_BLOCKSTATE.getValue(PortalBlock.FACE) == PORTAL_BLOCKSTATE.getValue(PortalBlock.FACING))) PORTAL_BLOCKSTATE = PORTAL_BLOCKSTATE.setValue(PortalBlock.FACING, Direction.EAST);
-                if (!player.isShiftKeyDown() & !tag.contains("only_blue")) tag.put("orange_portal_pos", NbtUtils.writeBlockPos(res_block.getBlockPos()));
-                if (player.isShiftKeyDown() | tag.contains("only_blue")) tag.put("blue_portal_pos", NbtUtils.writeBlockPos(res_block.getBlockPos()));
+                if (!is_leftclick & !tag.contains("only_blue")) tag.put("orange_portal_pos", NbtUtils.writeBlockPos(res_block.getBlockPos()));
+                if (is_leftclick | tag.contains("only_blue")) tag.put("blue_portal_pos", NbtUtils.writeBlockPos(res_block.getBlockPos()));
                 BlockState old_block_state = level.getBlockState(res_block.getBlockPos());
                 BlockState old_blockstate2 = level.getBlockState(res_block.getBlockPos().relative(PORTAL_BLOCKSTATE.getValue(PortalBlock.FACING)));
-                if (player.isShiftKeyDown() | tag.contains("only_blue")) PORTAL_BLOCKSTATE = PORTAL_BLOCKSTATE.setValue(PortalBlock.IS_ORANGE, false);
+                if (is_leftclick | tag.contains("only_blue")) PORTAL_BLOCKSTATE = PORTAL_BLOCKSTATE.setValue(PortalBlock.IS_ORANGE, false);
                 BlockState second_portal_block = PORTAL_BLOCKSTATE.setValue(PortalBlock.FACING, PORTAL_BLOCKSTATE.getValue(PortalBlock.FACING).getOpposite());
                 level.setBlockAndUpdate(res_block.getBlockPos(), PORTAL_BLOCKSTATE);
                 level.setBlockAndUpdate(res_block.getBlockPos().relative(PORTAL_BLOCKSTATE.getValue(PortalBlock.FACING)), second_portal_block);
                 
                 PortalBlockBlockEntity res_portal_block_entity = ((PortalBlock) PORTAL_BLOCKSTATE.getBlock()).newBlockEntity(res_block.getBlockPos(), PORTAL_BLOCKSTATE);
                 PortalBlockBlockEntity res_portal_blockentity2 = ((PortalBlock) second_portal_block.getBlock()).newBlockEntity(res_block.getBlockPos().relative(PORTAL_BLOCKSTATE.getValue(PortalBlock.FACING)), second_portal_block);
-                if (BLUE_PORTAL_BLOCKENTITY != null & !player.isShiftKeyDown() & !tag.contains("only_blue")) {
+                if (BLUE_PORTAL_BLOCKENTITY != null & !is_leftclick & !tag.contains("only_blue")) {
                     res_portal_block_entity.setLinkPos(BLUE_PORTAL_BLOCKENTITY.getBlockPos());
                     res_portal_blockentity2.setLinkPos(BLUE_PORTAL_BLOCKENTITY.getBlockPos());
                     ((PortalBlockBlockEntity) BLUE_PORTAL_BLOCKENTITY).setLinkPos(res_portal_block_entity.getBlockPos());
@@ -103,7 +106,7 @@ public class PortalGunItem extends Item {
                     level.setBlockAndUpdate(BLUE_PORTAL_BLOCKENTITY.getBlockPos(), BLUE_PORTAL_BLOCKENTITY.getBlockState().setValue(PortalBlock.IS_ACTIVE, true));
                     level.setBlockAndUpdate(BLUE_PORTAL_BLOCKENTITY.getBlockPos().relative(BLUE_PORTAL_BLOCKENTITY.getBlockState().getValue(PortalBlock.FACING)), level.getBlockEntity(BLUE_PORTAL_BLOCKENTITY.getBlockPos().relative(BLUE_PORTAL_BLOCKENTITY.getBlockState().getValue(PortalBlock.FACING))).getBlockState().setValue(PortalBlock.IS_ACTIVE, true));
                 }
-                if (ORANGE_PORTAL_BLOCKENTITY != null & (player.isShiftKeyDown() | tag.contains("only_blue"))) {
+                if (ORANGE_PORTAL_BLOCKENTITY != null & (is_leftclick | tag.contains("only_blue"))) {
                     res_portal_block_entity.setLinkPos(ORANGE_PORTAL_BLOCKENTITY.getBlockPos());
                     res_portal_blockentity2.setLinkPos(ORANGE_PORTAL_BLOCKENTITY.getBlockPos());
                     ((PortalBlockBlockEntity) ORANGE_PORTAL_BLOCKENTITY).setLinkPos(res_portal_block_entity.getBlockPos());
@@ -192,5 +195,30 @@ public class PortalGunItem extends Item {
     public boolean mineBlock(ItemStack item, Level level, BlockState state, BlockPos pos, LivingEntity entity) {
         if (entity.isShiftKeyDown()) clearPortals(level, item);
         return false;
+    }
+
+    @Override
+    public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
+        return false;
+    }
+
+    public InteractionResult onLeftClick(Player player, InteractionHand hand) {
+        Level level = player.level();
+        return shootPortal(level, player, hand, true).getResult();
+    }
+
+    public InteractionResult onRightClick(Player player, InteractionHand hand) {
+        Level level = player.level();
+        return shootPortal(level, player, hand, false).getResult();
+    }
+
+    @SubscribeEvent
+    public void LeftClickEmpty(LeftClickEmpty event) {
+        if (event.getItemStack().is(portalgun.PORTAL_GUN_ITEM.get())) onLeftClick(event.getEntity(), event.getHand());
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        return onRightClick(player, hand);
     }
 }
