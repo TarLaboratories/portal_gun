@@ -46,6 +46,10 @@ public class Config
     private static final ForgeConfigSpec.BooleanValue IS_WHITELIST_MODE = BUILDER
             .comment("Whether the list of (non-)portalable blocks is for portalable blocks or non-portalable blocks.")
             .define("is_whitelist_mode", false);
+    
+    private static final ForgeConfigSpec.ConfigValue<Integer> EMANCIPATION_GRID_EMITTER_RANGE = BUILDER
+            .comment("The maximum amount blocks can be between two emancipation grid emitters for them to function")
+            .define("emancipation_grid_emitter_range", 16);
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
@@ -55,6 +59,7 @@ public class Config
     public static Set<Item> items;
     public static Set<Block> portalable_blocks;
     public static boolean is_whitelist_mode;
+    public static int emancipation_grid_emitter_range;
 
     private static boolean validateItemName(final Object obj)
     {
@@ -77,7 +82,7 @@ public class Config
         items = ITEM_STRINGS.get().stream()
                 .map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName)))
                 .collect(Collectors.toSet());*/
-        
+        emancipation_grid_emitter_range = EMANCIPATION_GRID_EMITTER_RANGE.get();
         portalable_blocks = PORTALABLE_BLOCK_STRINGS.get().stream().map(blockName -> ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockName))).collect(Collectors.toSet());
     }
 }

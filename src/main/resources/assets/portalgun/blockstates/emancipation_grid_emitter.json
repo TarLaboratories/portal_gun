@@ -1,0 +1,49 @@
+{
+    "multipart": [
+        {   "when": {"AND": [{"face": "south"}, {"axis": "x|z"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_side"}
+        },
+        {   "when": {"AND": [{"face": "north"}, {"axis": "y"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_side", "x": 90}
+        },
+        {   "when": {"AND": [{"face": "west"}, {"axis": "x|z"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_side", "y": 90}
+        },
+        {   "when": {"AND": [{"face": "east"}, {"axis": "y"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_side", "y": 90, "x": 90}
+        },
+        {   "when": {"AND": [{"face": "north"}, {"axis": "x|z"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_side", "y": 180}
+        },
+        {   "when": {"AND": [{"face": "south"}, {"axis": "y"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_side", "y": 180,"x": 90}
+        },
+        {   "when": {"AND": [{"face": "east"}, {"axis": "x|z"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_side", "y": 270}
+        },
+        {   "when": {"AND": [{"face": "west"}, {"axis": "y"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_side", "y": 270, "x": 90}
+        },
+        {   "when": {"AND": [{"face": "up"}, {"axis": "x"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_up"}
+        },
+        {   "when": {"AND": [{"face": "up"}, {"axis": "z"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_up", "y": 90}
+        },
+        {   "when": {"AND": [{"face": "down"}, {"axis": "x"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_up", "x": 180}
+        },
+        {   "when": {"AND": [{"face": "down"}, {"axis": "z"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_up", "x": 180, "y": 90}
+        },
+        {   "when": {"AND": [{"is_active": true}, {"axis": "x"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_activated"}
+        },
+        {   "when": {"AND": [{"is_active": true}, {"axis": "y"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_activated", "x": 90}
+        },
+        {   "when": {"AND": [{"is_active": true}, {"axis": "z"}]},
+            "apply": {"model": "portalgun:block/emancipation_grid_emitter_activated", "y": 90}
+        }
+    ]
+}

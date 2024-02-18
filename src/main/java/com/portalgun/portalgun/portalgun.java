@@ -65,13 +65,16 @@ public class portalgun
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
     
     // Creates a new Block with the id "portalgun:example_block", combining the namespace and path
-    public static final RegistryObject<Block> PORTAL_BLOCK = BLOCKS.register("portal_block", () -> new PortalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).destroyTime(-1)));
+    public static final RegistryObject<Block> PORTAL_BLOCK = BLOCKS.register("portal_block", () -> new PortalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).destroyTime(-1)));
+    public static final RegistryObject<Block> EMANCIPATION_GRID_EMITTER = BLOCKS.register("emancipation_grid_emitter", () -> new EmancipationGridEmitter(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission()));
+    public static final RegistryObject<Block> EMANCIPATION_GRID_BLOCK = BLOCKS.register("emancipation_grid", () -> new EmancipationGridBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission().destroyTime(-1)));
     //public static final RegistryObject<Block> APERTURESTONE_WIRE = BLOCKS.register("aperturestone_wire", () -> new ApertureStoneWire(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).noCollission()));
     //static Block validBlocks = null;
     public static final RegistryObject<BlockEntityType<?>> PORTAL_BLOCK_BLOCKSTATE = BLOCK_ENTITIES.register("portal_block_blockentity", () -> BlockEntityType.Builder.of(PortalBlockBlockEntity::new, PORTAL_BLOCK.get()).build(null));
     // Creates a new BlockItem with the id "portalgun:example_block", combining the namespace and path
     //public static final RegistryObject<Item> PORTAL_BLOCK_ITEM = ITEMS.register("portal_block", () -> new BlockItem(PORTAL_BLOCK.get(), new Item.Properties()));
     public static final RegistryObject<Item> PORTAL_GUN_ITEM = ITEMS.register("portal_gun", () -> new PortalGunItem(new Item.Properties()));
+    public static final RegistryObject<Item> EMANCIPATION_GRID_EMITTER_ITEM = ITEMS.register("emancipation_grid_emitter", () -> new BlockItem(EMANCIPATION_GRID_EMITTER.get(), new Item.Properties()));
     //public static final RegistryObject<Item> APERTURESTONE_WIRE_ITEM = ITEMS.register("aperturestone_wire", () -> new BlockItem(APERTURESTONE_WIRE.get(), new Item.Properties()));
     //public static final RegistryObject<Item> INFINITE_REACH_ITEM = ITEMS.register("infinite_reach_item", () -> new Item(new Item.Properties()));
     
@@ -81,6 +84,7 @@ public class portalgun
             .icon(() -> PORTAL_GUN_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(PORTAL_GUN_ITEM.get());
+                output.accept(EMANCIPATION_GRID_EMITTER_ITEM.get());
                 //output.accept(APERTURESTONE_WIRE_ITEM.get());
                 //output.accept(PORTAL_BLOCK_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).title(Component.translatable("Portal Gun Mod"))
