@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HalfTransparentBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
@@ -16,7 +17,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class EmancipationGridBlock extends Block {
+public class EmancipationGridBlock extends HalfTransparentBlock {
     public static EnumProperty<Axis> AXIS = EnumProperty.create("axis", Axis.class);
     public static final VoxelShape EMANCIPATION_GRID_X = box(7.0D, 0.0D, 0.0D, 9.0D, 16.0D, 16.0D);
     public static final VoxelShape EMANCIPATION_GRID_Y = box(0.0D, 7.0D, 0.0D, 16.0D, 9.0D, 16.0D);

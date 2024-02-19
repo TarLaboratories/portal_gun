@@ -3,6 +3,8 @@ package com.portalgun.portalgun;
 import com.ibm.icu.impl.number.Properties;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -15,12 +17,14 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.BlockEntityType.BlockEntitySupplier;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.BlockBehaviour.StatePredicate;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -67,7 +71,7 @@ public class portalgun
     // Creates a new Block with the id "portalgun:example_block", combining the namespace and path
     public static final RegistryObject<Block> PORTAL_BLOCK = BLOCKS.register("portal_block", () -> new PortalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).destroyTime(-1)));
     public static final RegistryObject<Block> EMANCIPATION_GRID_EMITTER = BLOCKS.register("emancipation_grid_emitter", () -> new EmancipationGridEmitter(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission()));
-    public static final RegistryObject<Block> EMANCIPATION_GRID_BLOCK = BLOCKS.register("emancipation_grid", () -> new EmancipationGridBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission().destroyTime(-1)));
+    public static final RegistryObject<Block> EMANCIPATION_GRID_BLOCK = BLOCKS.register("emancipation_grid", () -> new EmancipationGridBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission().destroyTime(-1).noOcclusion().isViewBlocking((BlockState state, BlockGetter getter, BlockPos pos) -> false)));
     //public static final RegistryObject<Block> APERTURESTONE_WIRE = BLOCKS.register("aperturestone_wire", () -> new ApertureStoneWire(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).noCollission()));
     //static Block validBlocks = null;
     public static final RegistryObject<BlockEntityType<?>> PORTAL_BLOCK_BLOCKSTATE = BLOCK_ENTITIES.register("portal_block_blockentity", () -> BlockEntityType.Builder.of(PortalBlockBlockEntity::new, PORTAL_BLOCK.get()).build(null));
@@ -175,12 +179,15 @@ public class portalgun
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
+        @SuppressWarnings("deprecation")
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            ItemBlockRenderTypes.setRenderLayer(portalgun.EMANCIPATION_GRID_BLOCK.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(portalgun.EMANCIPATION_GRID_EMITTER.get(), RenderType.translucent());
         }
 
         @SubscribeEvent

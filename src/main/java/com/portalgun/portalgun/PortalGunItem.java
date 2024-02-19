@@ -53,7 +53,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.api.distmarker.Dist;
 
 @SuppressWarnings("unused")
-@Mod.EventBusSubscriber(modid = portalgun.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+//@Mod.EventBusSubscriber(modid = portalgun.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class PortalGunItem extends Item implements ClickHandlingItem {
     private static final Logger LOGGER = LogUtils.getLogger();
     //private static final Minecraft minecraft = Minecraft.getInstance();
@@ -192,12 +192,6 @@ public class PortalGunItem extends Item implements ClickHandlingItem {
     }
 
     @Override
-    public boolean mineBlock(ItemStack item, Level level, BlockState state, BlockPos pos, LivingEntity entity) {
-        if (entity.isShiftKeyDown()) clearPortals(level, item);
-        return false;
-    }
-
-    @Override
     public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
         return false;
     }
@@ -219,6 +213,7 @@ public class PortalGunItem extends Item implements ClickHandlingItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        return onRightClick(player, hand);
+        if (player.isShiftKeyDown()) return new InteractionResultHolder<ItemStack>(onLeftClick(player, hand), player.getItemInHand(hand));
+        return new InteractionResultHolder<ItemStack>(onRightClick(player, hand), player.getItemInHand(hand));
     }
 }

@@ -1,4 +1,7 @@
 {
     "block.portalgun.portal_block": "Portal",
-    "item.portalgun.portal_gun": "Portal Gun"
+    "block.portalgun.emancipation_grid_emitter": "Emancipation Grid Emitter",
+    "block.portalgun.emancipation_grid": "Emancipation Grid",
+    "item.portalgun.portal_gun": "Portal Gun",
+    "item.portalgun.emancipation_grid_emitter": "Emancipation Grid Emitter"
 }
