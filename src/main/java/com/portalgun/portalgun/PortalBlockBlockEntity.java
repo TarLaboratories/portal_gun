@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.worldselection.WorldSelectionList.WorldListEntry;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.StateHolder;
@@ -115,8 +117,27 @@ public class PortalBlockBlockEntity extends BlockEntity {
             ForgeChunkManager.forceChunk(serverlevel, "portalgun", this.worldPosition, (int) chunk, (int) (chunk >> 32), true, false);
         }
         //((PortalBlockBlockEntity) this.level.getBlockEntity(this.worldPosition.relative(this.getBlockState().getValue(PortalBlock.FACING)))).removePortal();
+        this.destroyHardLightBridge();
         this.level.setBlockAndUpdate(this.worldPosition, this.replaced_block_blockstate);
         if (serverlevel != null) ForgeChunkManager.forceChunk(serverlevel, "portalgun", this.worldPosition, (int) chunk, (int) (chunk >> 32), false, false);
+    }
+
+    public void destroyHardLightBridge() {
+        if (level.getBlockState(this.worldPosition.relative(this.getBlockState().getValue(PortalBlock.FACE))).is(portalgun.HARD_LIGHT_BRIDGE.get())) {
+            BlockState state = level.getBlockState(this.worldPosition);
+            Direction direction = state.getValue(PortalBlock.FACE);
+            BlockPos tmp_pos = this.worldPosition.relative(direction);
+            while (level.getBlockState(tmp_pos).is(portalgun.HARD_LIGHT_BRIDGE.get())) {
+                level.setBlock(tmp_pos, Blocks.AIR.defaultBlockState(), 15);
+                tmp_pos = tmp_pos.relative(direction);
+                if (level.getBlockState(tmp_pos).is(portalgun.PORTAL_BLOCK.get())) {
+                    if (direction != level.getBlockState(tmp_pos).getValue(PortalBlock.FACE).getOpposite()) break;
+                    tmp_pos = ((PortalBlockBlockEntity) level.getBlockEntity(tmp_pos)).link_pos;
+                    direction = level.getBlockState(tmp_pos).getValue(PortalBlock.FACE);
+                    tmp_pos = tmp_pos.relative(direction);
+                }
+            }
+        }
     }
 
     /*public void renderPortal() {

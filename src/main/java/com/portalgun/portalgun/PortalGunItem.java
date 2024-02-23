@@ -72,6 +72,8 @@ public class PortalGunItem extends Item implements ClickHandlingItem {
             BlockEntityType PORTAL_BLOCK_ENTITY_TYPE = RegistryObject.create(new ResourceLocation("portalgun:portal_block_blockentity"), ForgeRegistries.BLOCK_ENTITY_TYPES).get();
             if (tag.contains("orange_portal_pos")) ORANGE_PORTAL_BLOCKENTITY = level.getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("orange_portal_pos")));
             if (tag.contains("blue_portal_pos")) BLUE_PORTAL_BLOCKENTITY = level.getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("blue_portal_pos")));
+            if (ORANGE_PORTAL_BLOCKENTITY != null) ((PortalBlockBlockEntity) ORANGE_PORTAL_BLOCKENTITY).destroyHardLightBridge();
+            if (BLUE_PORTAL_BLOCKENTITY != null) ((PortalBlockBlockEntity) BLUE_PORTAL_BLOCKENTITY).destroyHardLightBridge();
             //if (ORANGE_PORTAL_BLOCKENTITY != null) {LOGGER.info(ORANGE_PORTAL_BLOCKENTITY.toString() + "============================================="); LOGGER.info(((PortalBlockBlockEntity) ORANGE_PORTAL_BLOCKENTITY).replaced_block_blockstate.toString());}
             //LOGGER.info(NbtUtils.readBlockPos(tag.getCompound("orange_portal_pos")).toString());
             //if (level.getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("orange_portal_pos"))) != null) LOGGER.info(level.getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("orange_portal_pos"))).toString());
@@ -150,8 +152,8 @@ public class PortalGunItem extends Item implements ClickHandlingItem {
         LOGGER.info("===============================================");*/
         return (isPortalable(level.getBlockState(pos).getBlock()) &
             isPortalable(level.getBlockState(pos.relative(facing)).getBlock()) &
-            level.getBlockState(pos.relative(face)).isAir() &
-            level.getBlockState(pos.relative(facing).relative(face)).isAir());
+            canBeInFrontOfPortal(level.getBlockState(pos.relative(face))) &
+            canBeInFrontOfPortal(level.getBlockState(pos.relative(facing).relative(face))));
     }
 
     protected boolean isPortalable(Block block) {
@@ -215,5 +217,12 @@ public class PortalGunItem extends Item implements ClickHandlingItem {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (player.isShiftKeyDown()) return new InteractionResultHolder<ItemStack>(onLeftClick(player, hand), player.getItemInHand(hand));
         return new InteractionResultHolder<ItemStack>(onRightClick(player, hand), player.getItemInHand(hand));
+    }
+
+    protected boolean canBeInFrontOfPortal(BlockState state) {
+        if (state.canBeReplaced()) return true;
+        if (state.is(portalgun.HARD_LIGHT_BRIDGE.get())) return true;
+        if (state.is(portalgun.HARD_LIGHT_BRIDGE_EMITTER.get())) return true;
+        return false;
     }
 }

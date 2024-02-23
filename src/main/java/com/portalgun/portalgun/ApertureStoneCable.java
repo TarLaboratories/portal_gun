@@ -105,7 +105,8 @@ public class ApertureStoneCable extends Block {
             portalgun.EMANCIPATION_GRID_EMITTER.get(),
             portalgun.APERTURESTONE_REDSTONE_SWITCH.get(),
             portalgun.APERTURESTONE_LOGIC_GATE.get(),
-            portalgun.APERTURESTONE_INDICATOR.get()
+            portalgun.APERTURESTONE_INDICATOR.get(),
+            portalgun.HARD_LIGHT_BRIDGE_EMITTER.get()
         );
         if (!canSetSignalStrength.contains(level.getBlockState(pos).getBlock())) return;
         if (direction == null) {}
@@ -161,6 +162,14 @@ public class ApertureStoneCable extends Block {
             }
             level.setBlock(pos, state, 15);
             return;
+        } else if (level.getBlockState(pos).is(portalgun.HARD_LIGHT_BRIDGE_EMITTER.get())) {
+            if (signal >= 100) {
+                ((AnyBlockEmitter) level.getBlockState(pos).getBlock()).emmit(level, pos);
+                return;
+            } else {
+                ((AnyBlockEmitter) level.getBlockState(pos).getBlock()).deactivate(level, pos);
+            }
+            return;
         }
         pos_list.add(pos);
         BlockState state = level.getBlockState(pos);
@@ -187,7 +196,8 @@ public class ApertureStoneCable extends Block {
             portalgun.CREATIVE_APERTURESTONE_SOURCE.get(),
             portalgun.APERTURESTONE_REDSTONE_SWITCH.get(),
             portalgun.APERTURESTONE_LOGIC_GATE.get(),
-            portalgun.APERTURESTONE_INDICATOR.get()
+            portalgun.APERTURESTONE_INDICATOR.get(),
+            portalgun.HARD_LIGHT_BRIDGE_EMITTER.get()
         );
         return can_connect.contains(state.getBlock());
     }

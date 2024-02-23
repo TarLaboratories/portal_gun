@@ -1,0 +1,58 @@
+{
+    "multipart": [
+        {   "when": {"AND": [{"facing": "north"}, {"axis": "x|z"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side"}
+        },
+        {   "when": {"AND": [{"facing": "north"}, {"axis": "y"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side_horizontal"}
+        },
+        {   "when": {"AND": [{"facing": "east"}, {"axis": "x|z"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side", "y": 90}
+        },
+        {   "when": {"AND": [{"facing": "west"}, {"axis": "y"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side_horizontal", "y": 270}
+        },
+        {   "when": {"AND": [{"facing": "south"}, {"axis": "x|z"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side", "y": 180}
+        },
+        {   "when": {"AND": [{"facing": "south"}, {"axis": "y"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side_horizontal", "y": 180}
+        },
+        {   "when": {"AND": [{"facing": "west"}, {"axis": "x|z"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side", "y": 270}
+        },
+        {   "when": {"AND": [{"facing": "east"}, {"axis": "y"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side_horizontal", "y": 90}
+        },
+        {   "when": {"AND": [{"facing": "down"}, {"axis": "x"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_up"}
+        },
+        {   "when": {"AND": [{"facing": "down"}, {"axis": "z"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_up", "y": 90}
+        },
+        {   "when": {"AND": [{"facing": "up"}, {"axis": "x"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_up", "x": 180}
+        },
+        {   "when": {"AND": [{"facing": "up"}, {"axis": "z"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_up", "x": 180, "y": 90}
+        },
+        {   "when": {"AND": [{"is_active": true}, {"axis": "x"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_activated", "y": 270}
+        },
+        {   "when": {"AND": [{"is_active": true}, {"axis": "y"}, {"facing": "west"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_activated_2", "x": 90}
+        },
+        {   "when": {"AND": [{"is_active": true}, {"axis": "y"}, {"facing": "east"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_activated_2", "x": 90, "y": 180}
+        },
+        {   "when": {"AND": [{"is_active": true}, {"axis": "y"}, {"facing": "north"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_activated_2", "x": 90, "y": 90}
+        },
+        {   "when": {"AND": [{"is_active": true}, {"axis": "y"}, {"facing": "south"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_activated_2", "x": 90, "y": 270}
+        },
+        {   "when": {"AND": [{"is_active": true}, {"axis": "z"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_activated"}
+        }
+    ]
+}

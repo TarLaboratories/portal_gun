@@ -16,6 +16,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -78,6 +79,8 @@ public class portalgun
     public static final RegistryObject<Block> APERTURESTONE_REDSTONE_SWITCH = BLOCKS.register("aperturestone_redstone_switch", () -> new ApertureStoneRedstoneSwitch(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
     public static final RegistryObject<Block> APERTURESTONE_LOGIC_GATE = BLOCKS.register("aperturestone_logic_gate", () -> new ApertureStoneLogicGate(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
     public static final RegistryObject<Block> APERTURESTONE_INDICATOR = BLOCKS.register("aperturestone_indicator", () -> new ApertureStoneIndicator(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
+    public static final RegistryObject<Block> HARD_LIGHT_BRIDGE_EMITTER = BLOCKS.register("hard_light_bridge_emitter", () -> new HardLightBridgeEmitter(BlockBehaviour.Properties.of().mapColor(DyeColor.WHITE)));
+    public static final RegistryObject<Block> HARD_LIGHT_BRIDGE = BLOCKS.register("hard_light_bridge", () -> new HardLightBridge(BlockBehaviour.Properties.of().mapColor(DyeColor.LIGHT_BLUE)));
     //static Block validBlocks = null;
     public static final RegistryObject<BlockEntityType<?>> PORTAL_BLOCK_BLOCKSTATE = BLOCK_ENTITIES.register("portal_block_blockentity", () -> BlockEntityType.Builder.of(PortalBlockBlockEntity::new, PORTAL_BLOCK.get()).build(null));
     public static final RegistryObject<BlockEntityType<?>> CREATIVE_APERTURESTONE_SOURCE_BLOCKENTITY = BLOCK_ENTITIES.register("creative_aperturestone_source_blockentity", () -> BlockEntityType.Builder.of(CreativeApertureStoneSourceBlockEntity::new, CREATIVE_APERTURESTONE_SOURCE.get()).build(null));
@@ -92,6 +95,7 @@ public class portalgun
     public static final RegistryObject<Item> APERTURESTONE_REDSTONE_SWITCH_ITEM = ITEMS.register("aperturestone_redstone_switch", () -> new BlockItem(APERTURESTONE_REDSTONE_SWITCH.get(), new Item.Properties()));
     public static final RegistryObject<Item> APERTURESTONE_LOGIC_GATE_ITEM = ITEMS.register("aperturestone_logic_gate", () -> new BlockItem(APERTURESTONE_LOGIC_GATE.get(), new Item.Properties()));
     public static final RegistryObject<Item> APERTURESTONE_INDICATOR_ITEM = ITEMS.register("aperturestone_indicator", () -> new BlockItem(APERTURESTONE_INDICATOR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> HARD_LIGHT_BRIDGE_EMITTER_ITEM = ITEMS.register("hard_light_bridge_emitter", () -> new BlockItem(HARD_LIGHT_BRIDGE_EMITTER.get(), new Item.Properties()));
     //public static final RegistryObject<Item> INFINITE_REACH_ITEM = ITEMS.register("infinite_reach_item", () -> new Item(new Item.Properties()));
     
     // Creates a creative tab with the id "portalgun:example_tab" for the example item, that is placed after the combat tab
@@ -107,6 +111,7 @@ public class portalgun
                 output.accept(APERTURESTONE_LOGIC_GATE_ITEM.get());
                 output.accept(APERTURESTONE_CABLE_ENCASED_ITEM.get());
                 output.accept(APERTURESTONE_INDICATOR_ITEM.get());
+                output.accept(HARD_LIGHT_BRIDGE_EMITTER_ITEM.get());
                 //output.accept(PORTAL_BLOCK_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).title(Component.translatable("Portal Gun Mod"))
             .build());
@@ -206,6 +211,8 @@ public class portalgun
             ItemBlockRenderTypes.setRenderLayer(portalgun.EMANCIPATION_GRID_BLOCK.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(portalgun.EMANCIPATION_GRID_EMITTER.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(portalgun.APERTURESTONE_LOGIC_GATE.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(portalgun.HARD_LIGHT_BRIDGE.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(portalgun.HARD_LIGHT_BRIDGE_EMITTER.get(), RenderType.translucent());
         }
 
         @SubscribeEvent

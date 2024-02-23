@@ -1,0 +1,13 @@
+{
+    "multipart": [
+        {   "when": {"AND": [{"axis": "x"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_activated", "y": 270}
+        },
+        {   "when": {"AND": [{"axis": "y"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_activated", "x": 90}
+        },
+        {   "when": {"AND": [{"axis": "z"}]},
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_activated"}
+        }
+    ]
+}

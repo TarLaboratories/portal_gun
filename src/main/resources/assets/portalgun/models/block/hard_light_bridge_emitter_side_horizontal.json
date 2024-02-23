@@ -1,0 +1,22 @@
+{
+    "textures": {
+        "particle": "block/white_concrete",
+        "front": "portalgun:block/hard_light_bridge_emitter_front",
+        "back": "portalgun:block/emancipation_grid_emitter_back",
+        "top": "portalgun:block/emancipation_grid_emitter_top",
+        "side": "portalgun:block/emancipation_grid_emitter_side"
+    },
+    "elements": [
+        {   "from": [0, 0, 15],
+            "to": [16, 4, 16],
+            "faces": {
+                "down": {"texture": "#top"},
+                "up": {"texture": "#top"},
+                "north": {"texture": "#front", "rotation": 90, "uv": [6, 0, 10, 16]},
+                "south": {"texture": "#back"},
+                "east": {"texture": "#side"},
+                "west": {"texture": "#side"}
+            }
+        }
+    ]
+}
