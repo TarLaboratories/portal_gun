@@ -2,6 +2,18 @@
     "block.portalgun.portal_block": "Portal",
     "block.portalgun.emancipation_grid_emitter": "Emancipation Grid Emitter",
     "block.portalgun.emancipation_grid": "Emancipation Grid",
+    "block.portalgun.aperturestone_cable": "Aperturestone Cable",
+    "block.portalgun.creative_aperturestone_source": "Creative Aperturestone Source",
+    "block.portalgun.aperturestone_redstone_switch": "Aperturestone Redstone Switch",
+    "block.portalgun.aperturestone_logic_gate": "Aperturestone Logic Gate",
+    "block.portalgun.aperturestone_cable_encased": "Encased Aperturestone Cable",
+    "block.portalgun.aperturestone_indicator": "Aperturestone Indicator",
     "item.portalgun.portal_gun": "Portal Gun",
-    "item.portalgun.emancipation_grid_emitter": "Emancipation Grid Emitter"
+    "item.portalgun.emancipation_grid_emitter": "Emancipation Grid Emitter",
+    "item.portalgun.aperturestone_cable": "Aperturestone Cable",
+    "item.portalgun.creative_aperturestone_source": "Creative Aperturestone Source",
+    "item.portalgun.aperturestone_redstone_switch": "Aperturestone Redstone Switch",
+    "item.portalgun.aperturestone_logic_gate": "Aperturestone Logic Gate",
+    "item.portalgun.aperturestone_cable_encased": "Encased Aperturestone Cable",
+    "item.portalgun.aperturestone_indicator": "Aperturestone Indicator"
 }

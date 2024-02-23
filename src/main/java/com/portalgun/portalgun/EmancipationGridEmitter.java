@@ -85,20 +85,14 @@ public class EmancipationGridEmitter extends Block {
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState state2, LevelAccessor level, BlockPos pos, BlockPos pos2) {
-        if (!state.getValue(EmancipationGridEmitter.IS_ACTIVE)) tryActivate(state, level, pos);
-        else if (!level.getBlockState(pos.relative(state.getValue(EmancipationGridEmitter.FACE).getOpposite())).is(portalgun.EMANCIPATION_GRID_BLOCK.get())) state = state.setValue(EmancipationGridEmitter.IS_ACTIVE, false);
+        //if (!state.getValue(EmancipationGridEmitter.IS_ACTIVE)) tryActivate(state, level, pos);
+        if (!level.getBlockState(pos.relative(state.getValue(EmancipationGridEmitter.FACE).getOpposite())).is(portalgun.EMANCIPATION_GRID_BLOCK.get())) state = state.setValue(EmancipationGridEmitter.IS_ACTIVE, false);
         return state;
     }
 
     @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!state.getValue(EmancipationGridEmitter.IS_ACTIVE)) return;
-        BlockPos tmp_pos = pos;
-        for (int i = 0; i < Config.emancipation_grid_emitter_range; i++) {
-            tmp_pos = tmp_pos.relative(state.getValue(EmancipationGridEmitter.FACE).getOpposite());
-            if (level.getBlockState(tmp_pos).is(portalgun.EMANCIPATION_GRID_BLOCK.get())) level.setBlockAndUpdate(tmp_pos, Blocks.AIR.defaultBlockState());
-            else break;
-        }
+        deactivate(state, level, pos);
     }
 
     public static VoxelShape calculateShape(Direction face, Axis axis, Boolean is_active) {
@@ -129,7 +123,7 @@ public class EmancipationGridEmitter extends Block {
         return getShape(state, getter, pos, null);
     }
 
-    public boolean tryActivate(BlockState state, LevelAccessor level, BlockPos pos) {
+    public static boolean tryActivate(BlockState state, LevelAccessor level, BlockPos pos) {
         if (level.isClientSide()) return false;
         //LOGGER.info("trying to activate {}", state);
         if (level.getBlockState(pos.relative(state.getValue(EmancipationGridEmitter.FACE).getOpposite())).is(portalgun.EMANCIPATION_GRID_BLOCK.get())) {
@@ -159,8 +153,21 @@ public class EmancipationGridEmitter extends Block {
             //LOGGER.info("setting block {}", tmp_pos);
             level.setBlock(tmp_pos, portalgun.EMANCIPATION_GRID_BLOCK.get().defaultBlockState().setValue(EmancipationGridBlock.AXIS, state.getValue(EmancipationGridEmitter.AXIS)), 15);
         }
+        level.setBlock(tmp_pos.relative(state.getValue(EmancipationGridEmitter.FACE).getOpposite()), state.setValue(EmancipationGridEmitter.IS_ACTIVE, true).setValue(EmancipationGridEmitter.FACE, state.getValue(EmancipationGridEmitter.FACE).getOpposite()), 15);
         level.setBlock(pos, state.setValue(EmancipationGridEmitter.IS_ACTIVE, true), 15);
         return true;
+    }
+
+    public static void deactivate(BlockState state, LevelAccessor level, BlockPos pos) {
+        if (!state.getValue(EmancipationGridEmitter.IS_ACTIVE)) return;
+        BlockPos tmp_pos = pos;
+        for (int i = 0; i < Config.emancipation_grid_emitter_range; i++) {
+            tmp_pos = tmp_pos.relative(state.getValue(EmancipationGridEmitter.FACE).getOpposite());
+            if (level.getBlockState(tmp_pos).is(portalgun.EMANCIPATION_GRID_BLOCK.get())) level.setBlock(tmp_pos, Blocks.AIR.defaultBlockState(), 15);
+            else break;
+        }
+        level.setBlock(pos, state.setValue(EmancipationGridEmitter.IS_ACTIVE, false), 15);
+        //level.setBlock(tmp_pos, level.getBlockState(tmp_pos), 15);
     }
 
     public static boolean canReplaceWithGrid(BlockState state) {

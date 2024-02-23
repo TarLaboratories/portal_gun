@@ -1,0 +1,12 @@
+{
+    "parent": "minecraft:block/cube",
+    "textures": {
+        "particle": "portalgun:block/aperturestone_indicator_fully_powered",
+        "north": "portalgun:block/aperturestone_indicator_fully_powered",
+        "south": "portalgun:block/aperturestone_indicator_fully_powered",
+        "east": "portalgun:block/aperturestone_indicator_fully_powered",
+        "west": "portalgun:block/aperturestone_indicator_fully_powered",
+        "down": "portalgun:block/aperturestone_indicator_fully_powered",
+        "up": "portalgun:block/aperturestone_indicator_fully_powered"
+    }
+}

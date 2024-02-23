@@ -1,0 +1,20 @@
+{
+    "textures": {
+        "particle": "block/white_concrete",
+        "main": "portalgun:block/aperturestone_cable_fully_powered",
+        "side": "portalgun:block/aperturestone_cable_side"
+    },
+    "elements": [
+        {   "from": [6, 6, 0],
+            "to": [10, 10, 6],
+            "faces": {
+                "down": {"texture": "#main"},
+                "up": {"texture": "#main"},
+                "east": {"texture": "#main"},
+                "west": {"texture": "#main"},
+                "north": {"texture": "#side"},
+                "south": {"texture": "#side"}
+            }
+        }
+    ]
+}

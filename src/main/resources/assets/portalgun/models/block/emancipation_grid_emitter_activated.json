@@ -5,8 +5,8 @@
         "side": "portalgun:block/emancipation_grid_side"
     },
     "elements": [
-        {   "from": [0, 0, 7],
-            "to": [16, 16, 9],
+        {   "from": [0, 0, 8],
+            "to": [16, 16, 8],
             "faces": {
                 "down": {"texture": "#side"},
                 "up": {"texture": "#side"},

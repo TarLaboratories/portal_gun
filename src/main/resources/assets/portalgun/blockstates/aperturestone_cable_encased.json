@@ -1,0 +1,88 @@
+{
+    "multipart": [
+        {   "when": {"AND": [{"north": true}, {"is_powered": "up"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_fully_powered"}
+        },
+        {   "when": {"AND": [{"north": true}, {"is_powered": "side"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_partially_powered"}
+        },
+        {   "when": {"AND": [{"north": true}, {"is_powered": "none"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_not_powered"}
+        },
+        {   "when": {"AND": [{"south": true}, {"is_powered": "up"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_fully_powered", "y": 180}
+        },
+        {   "when": {"AND": [{"south": true}, {"is_powered": "side"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_partially_powered", "y": 180}
+        },
+        {   "when": {"AND": [{"south": true}, {"is_powered": "none"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_not_powered", "y": 180}
+        },
+        {   "when": {"AND": [{"east": true}, {"is_powered": "up"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_fully_powered", "y": 90}
+        },
+        {   "when": {"AND": [{"east": true}, {"is_powered": "side"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_partially_powered", "y": 90}
+        },
+        {   "when": {"AND": [{"east": true}, {"is_powered": "none"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_not_powered", "y": 90}
+        },
+        {   "when": {"AND": [{"west": true}, {"is_powered": "up"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_fully_powered", "y": 270}
+        },
+        {   "when": {"AND": [{"west": true}, {"is_powered": "side"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_partially_powered", "y": 270}
+        },
+        {   "when": {"AND": [{"west": true}, {"is_powered": "none"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_not_powered", "y": 270}
+        },
+        {   "when": {"AND": [{"up": true}, {"is_powered": "up"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_fully_powered", "x": 270}
+        },
+        {   "when": {"AND": [{"up": true}, {"is_powered": "side"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_partially_powered", "x": 270}
+        },
+        {   "when": {"AND": [{"up": true}, {"is_powered": "none"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_not_powered", "x": 270}
+        },
+        {   "when": {"AND": [{"down": true}, {"is_powered": "up"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_fully_powered", "x": 90}
+        },
+        {   "when": {"AND": [{"down": true}, {"is_powered": "side"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_partially_powered", "x": 90}
+        },
+        {   "when": {"AND": [{"down": true}, {"is_powered": "none"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_not_powered", "x": 90}
+        },
+        {   "when": {"AND": [{"is_powered": "none|side|up"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased"}
+        },
+        {   "when": {"AND": [{"north": false}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_none"}
+        },
+        {   "when": {"AND": [{"south": false}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_none", "y": 180}
+        },
+        {   "when": {"AND": [{"east": false}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_none", "y": 90}
+        },
+        {   "when": {"AND": [{"west": false}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_none", "y": 270}
+        },
+        {   "when": {"AND": [{"up": false}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_none", "x": 270}
+        },
+        {   "when": {"AND": [{"down": false}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_none", "x": 90}
+        },
+        {   "when": {"AND": [{"is_powered": "up"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_center_fully_powered", "x": 90}
+        },
+        {   "when": {"AND": [{"is_powered": "side"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_center_partially_powered", "x": 90}
+        },
+        {   "when": {"AND": [{"is_powered": "none"}]},
+            "apply": {"model": "portalgun:block/aperturestone_cable_encased_center_not_powered", "x": 90}
+        }
+    ]
+}

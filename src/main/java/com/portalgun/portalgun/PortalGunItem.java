@@ -161,7 +161,7 @@ public class PortalGunItem extends Item implements ClickHandlingItem {
         LOGGER.info("Checking if it is whitelist mode: {}", Config.is_whitelist_mode);
         LOGGER.info("Result: {}", Config.portalable_blocks.contains(block) ^ !Config.is_whitelist_mode);
         LOGGER.info("===============================================");*/
-        List<Block> cannot_place_portal_on = List.of(Blocks.AIR, Blocks.CAVE_AIR, Blocks.VOID_AIR, portalgun.PORTAL_BLOCK.get());
+        List<Block> cannot_place_portal_on = List.of(Blocks.AIR, Blocks.CAVE_AIR, Blocks.VOID_AIR, portalgun.PORTAL_BLOCK.get(), portalgun.EMANCIPATION_GRID_BLOCK.get(), portalgun.EMANCIPATION_GRID_EMITTER.get());
         return ((Config.portalable_blocks.contains(block)) ^ !Config.is_whitelist_mode) & !cannot_place_portal_on.contains(block);
     }
 

@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "is_powered=up": {"model": "portalgun:block/aperturestone_redstone_switch_fully_powered"},
+        "is_powered=side": {"model": "portalgun:block/aperturestone_redstone_switch_partially_powered"},
+        "is_powered=none": {"model": "portalgun:block/aperturestone_redstone_switch_not_powered"}
+    }
+}

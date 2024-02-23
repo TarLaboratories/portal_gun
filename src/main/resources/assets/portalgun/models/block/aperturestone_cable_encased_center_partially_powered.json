@@ -1,0 +1,29 @@
+{
+    "textures": {
+        "particle": "block/white_concrete",
+        "main": "portalgun:block/aperturestone_cable_encased_partially_powered"
+    },
+    "elements": [
+        {   "from": [0, 6, 6],
+            "to": [16, 10, 10],
+            "faces": {
+                "east": {"texture": "#main"},
+                "west": {"texture": "#main"}
+            }
+        },
+        {   "from": [6, 0, 6],
+            "to": [10, 16, 10],
+            "faces": {
+                "down": {"texture": "#main"},
+                "up": {"texture": "#main"}
+            }
+        },
+        {   "from": [6, 6, 0],
+            "to": [10, 10, 16],
+            "faces": {
+                "north": {"texture": "#main"},
+                "south": {"texture": "#main"}
+            }
+        }
+    ]
+}

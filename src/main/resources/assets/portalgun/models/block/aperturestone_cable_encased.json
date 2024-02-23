@@ -1,0 +1,72 @@
+{
+    "textures": {
+        "particle": "block/white_concrete",
+        "main": "portalgun:block/aperturestone_cable_encased"
+    },
+    "elements": [
+        {   "from": [0, 0, 0],
+            "to": [6, 6, 6],
+            "faces": {
+                "down": {"texture": "#main"},
+                "west": {"texture": "#main"},
+                "north": {"texture": "#main"}
+            }
+        },
+        {   "from": [10, 0, 0],
+            "to": [16, 6, 6],
+            "faces": {
+                "down": {"texture": "#main"},
+                "east": {"texture": "#main"},
+                "north": {"texture": "#main"}
+            }
+        },
+        {   "from": [0, 0, 10],
+            "to": [6, 6, 16],
+            "faces": {
+                "down": {"texture": "#main"},
+                "west": {"texture": "#main"},
+                "south": {"texture": "#main"}
+            }
+        },
+        {   "from": [10, 0, 10],
+            "to": [16, 6, 16],
+            "faces": {
+                "down": {"texture": "#main"},
+                "east": {"texture": "#main"},
+                "south": {"texture": "#main"}
+            }
+        },
+        {   "from": [0, 10, 0],
+            "to": [6, 16, 6],
+            "faces": {
+                "up": {"texture": "#main"},
+                "west": {"texture": "#main"},
+                "north": {"texture": "#main"}
+            }
+        },
+        {   "from": [10, 10, 0],
+            "to": [16, 16, 6],
+            "faces": {
+                "up": {"texture": "#main"},
+                "east": {"texture": "#main"},
+                "north": {"texture": "#main"}
+            }
+        },
+        {   "from": [0, 10, 10],
+            "to": [6, 16, 16],
+            "faces": {
+                "up": {"texture": "#main"},
+                "west": {"texture": "#main"},
+                "south": {"texture": "#main"}
+            }
+        },
+        {   "from": [10, 10, 10],
+            "to": [16, 16, 16],
+            "faces": {
+                "up": {"texture": "#main"},
+                "east": {"texture": "#main"},
+                "south": {"texture": "#main"}
+            }
+        }
+    ]
+}

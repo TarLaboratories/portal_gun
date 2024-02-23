@@ -1,0 +1,33 @@
+{
+    "textures": {
+        "particle": "block/white_concrete",
+        "marking": "portalgun:block/aperturestone_logic_gate_marking_or",
+        "marking_side": "portalgun:block/emancipation_grid_front",
+        "main": "portalgun:block/aperturestone_cable_with_direction",
+        "side": "portalgun:block/aperturestone_cable_side"
+    },
+    "elements": [
+        {   "from": [9, 10, 1],
+            "to": [10, 13, 5],
+            "faces": {
+                "down": {"texture": "#marking_side"},
+                "up": {"texture": "#marking_side"},
+                "east": {"texture": "#marking"},
+                "west": {"texture": "#marking_side"},
+                "north": {"texture": "#marking_side"},
+                "south": {"texture": "#marking_side"}
+            }
+        },
+        {   "from": [6, 6, 0],
+            "to": [10, 10, 6],
+            "faces": {
+                "down": {"texture": "#main"},
+                "up": {"texture": "#main"},
+                "east": {"texture": "#main"},
+                "west": {"texture": "#main"},
+                "north": {"texture": "#side"},
+                "south": {"texture": "#side"}
+            }
+        }
+    ]
+}

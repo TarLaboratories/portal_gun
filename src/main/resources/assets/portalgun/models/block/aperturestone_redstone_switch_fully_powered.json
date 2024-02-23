@@ -1,0 +1,12 @@
+{
+    "parent": "minecraft:block/cube",
+    "textures": {
+        "particle": "minecraft:block/white_concrete",
+        "north": "portalgun:block/aperturestone_redstone_switch_fully_powered",
+        "south": "portalgun:block/aperturestone_redstone_switch_fully_powered",
+        "east": "portalgun:block/aperturestone_redstone_switch_fully_powered",
+        "west": "portalgun:block/aperturestone_redstone_switch_fully_powered",
+        "down": "portalgun:block/aperturestone_redstone_switch_fully_powered",
+        "up": "portalgun:block/aperturestone_redstone_switch_fully_powered"
+    }
+}
