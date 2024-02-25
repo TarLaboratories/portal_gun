@@ -20,8 +20,8 @@ public class WeightedCubeRenderer extends EntityRenderer<WeightedCube> {
     @SuppressWarnings("unused")
     private static final Logger LOGGER = LogUtils.getLogger();
     private final BlockRenderDispatcher blockRenderer;
-    public static final BlockState NOT_POWERED_STATE = portalgun.WEIGHTED_STORAGE_CUBE_BLOCK.get().defaultBlockState();
-    public static final BlockState POWERED_STATE = portalgun.WEIGHTED_STORAGE_CUBE_BLOCK.get().defaultBlockState().setValue(WeightedStorageCubeBlock.POWERED, true);
+    public static BlockState NOT_POWERED_STATE = portalgun.WEIGHTED_STORAGE_CUBE_BLOCK.get().defaultBlockState().setValue(WeightedStorageCubeBlock.VARIANT, 0);
+    public static BlockState POWERED_STATE = portalgun.WEIGHTED_STORAGE_CUBE_BLOCK.get().defaultBlockState().setValue(WeightedStorageCubeBlock.POWERED, true).setValue(WeightedStorageCubeBlock.VARIANT, 0);
 
     protected WeightedCubeRenderer(Context context) {
         super(context);

@@ -1,0 +1,19 @@
+{
+    "textures": {
+        "particle": "portalgun:block/weighted_cube_dropper_shutter",
+        "side": "portalgun:block/weighted_cube_dropper_partially_powered",
+        "top": "portalgun:block/weighted_cube_dropper_top"
+    }, "elements": [
+        {
+            "from": [0, 0, 0],
+            "to": [16, 16, 16],
+            "faces": {
+                "up": {"texture": "#top"},
+                "north": {"texture": "#side"},
+                "south": {"texture": "#side"},
+                "east": {"texture": "#side"},
+                "west": {"texture": "#side"}
+            }
+        }
+    ]
+}

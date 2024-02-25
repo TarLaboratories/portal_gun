@@ -63,9 +63,10 @@ public class portalgun {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
-    
+
 
     public static final RegistryObject<EntityType<?>> WEIGHTED_CUBE_ENTITYTYPE = ENTITIES.register("weighted_storage_cube", () -> EntityType.Builder.of(WeightedCube::new, MobCategory.MISC).sized(0.75F, 0.75F).fireImmune().build("portalgun:weighted_storage_cube"));
+    public static final RegistryObject<EntityType<?>> COMPANION_CUBE_ENTITYTYPE = ENTITIES.register("companion_cube", () -> EntityType.Builder.of(CompanionCube::new, MobCategory.MISC).sized(0.75F, 0.75F).fireImmune().build("portalgun:companion_cube"));
 
     public static final RegistryObject<Block> PORTAL_BLOCK = BLOCKS.register("portal_block", () -> new PortalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).destroyTime(-1)));
     public static final RegistryObject<Block> EMANCIPATION_GRID_EMITTER = BLOCKS.register("emancipation_grid_emitter", () -> new EmancipationGridEmitter(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission()));
@@ -98,8 +99,7 @@ public class portalgun {
     public static final RegistryObject<Item> PRESSURE_BUTTON_ITEM = ITEMS.register("pressure_button", () -> new BlockItem(PRESSURE_BUTTON.get(), new Item.Properties()));
     public static final RegistryObject<Item> WEIGHTED_CUBE_DROPPER_ITEM = ITEMS.register("weighted_cube_dropper", () -> new BlockItem(WEIGHTED_CUBE_DROPPER.get(), new Item.Properties()));
     
-    // Creates a creative tab with the id "portalgun:example_tab" for the example item, that is placed after the combat tab
-    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
+    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("portalgun_mod_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> PORTAL_GUN_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
@@ -118,104 +118,47 @@ public class portalgun {
             }).title(Component.translatable("Portal Gun Mod"))
             .build());
     
-    //EntityType<?> PORTAL_ENTITY = EntityType.Builder.of(PortalEntity::new, MobCategory.MISC).sized(1.0F, 2.0F).fireImmune().updateInterval(1).build("portalgun:portal");
-    /*@SubscribeEvent
-    public void register(RegisterEvent event) {
-        event.register(ForgeRegistries.Keys.BLOCKS,
-            helper -> {
-                helper.register(new ResourceLocation(MODID, "example_block"), new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
-                //helper.register(new ResourceLocation(MODID, "example_block_2"), new Block(...));
-                //helper.register(new ResourceLocation(MODID, "example_block_3"), new Block(...));
-                // ...
-            }
-        );
-        event.register(ForgeRegistries.Keys.ITEMS,
-            helper -> {
-                helper.register(new ResourceLocation(MODID, "example_block"), new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
-                helper.register(new ResourceLocation(MODID, "example_item"), new Item(new Item.Properties().food(new FoodProperties.Builder()
-                .alwaysEat().nutrition(1).saturationMod(2f).build())));
-            }
-        );
-        /*event.register(ForgeRegistries.Keys.CREATIVE_MODE_TABS,
-            helper -> {
-                helper.register(new ResourceLocation(MODID, "example_tab"), CreativeModeTab.builder())
-            }
-        );
-    }*/
-    
-    public portalgun()
-    {
+    public portalgun() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-
-        // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so items get registered
         ITEMS.register(modEventBus);
-
         BLOCK_ENTITIES.register(modEventBus);
         ENTITIES.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
 
-        // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(PortalGunItem.class);
 
-        // Register the item to a creative tab
         //modEventBus.addListener(this::addCreative);
 
-        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
-        // Some common setup code
-        /*LOGGER.info("HELLO FROM COMMON SETUP");
+    private void commonSetup(final FMLCommonSetupEvent event) {
 
-        if (Config.logDirtBlock)
-            LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-
-        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-
-        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));*/
     }
 
-    // Add the example block item to the building blocks tab
-    //private void addCreative(BuildCreativeModeTabContentsEvent event)
-    //{
-    //    if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
-    //        event.accept(PORTAL_BLOCK_ITEM);
+    //private void addCreative(BuildCreativeModeTabContentsEvent event) {
+    //    if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(PORTAL_BLOCK_ITEM);
     //}
 
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
+    public void onServerStarting(ServerStartingEvent event) {
+
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
+    public static class ClientModEvents {
         @SuppressWarnings("deprecation")
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+        public static void onClientSetup(FMLClientSetupEvent event) {
             ItemBlockRenderTypes.setRenderLayer(portalgun.EMANCIPATION_GRID_BLOCK.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(portalgun.EMANCIPATION_GRID_EMITTER.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(portalgun.APERTURESTONE_LOGIC_GATE.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(portalgun.HARD_LIGHT_BRIDGE.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(portalgun.HARD_LIGHT_BRIDGE_EMITTER.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(portalgun.WEIGHTED_CUBE_DROPPER.get(), RenderType.translucent());
         }
 
         @SuppressWarnings("unchecked")
@@ -224,6 +167,7 @@ public class portalgun {
             BlockEntityType<PortalBlockBlockEntity> tmp = (BlockEntityType<PortalBlockBlockEntity>) PORTAL_BLOCK_BLOCKSTATE.get();
             event.registerBlockEntityRenderer(tmp, PortalBlockBlockEntityRenderer::new);
             event.registerEntityRenderer(((EntityType<WeightedCube>) WEIGHTED_CUBE_ENTITYTYPE.get()), WeightedCubeRenderer::new);
+            event.registerEntityRenderer(((EntityType<CompanionCube>) COMPANION_CUBE_ENTITYTYPE.get()), CompanionCubeRender::new);
         }
     }
 }

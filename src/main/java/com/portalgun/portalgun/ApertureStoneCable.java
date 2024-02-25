@@ -195,10 +195,14 @@ public class ApertureStoneCable extends Block {
                     if (!level.isClientSide()) {
                         for (Entity entity : ((ServerLevel) level).getAllEntities()) {
                             if (entity.getType() == entitytype) {
-                                LOGGER.info("found cube: {}", entity);
-                                if (entity.getEntityData().get(WeightedCube.SPAWN_DROPPER_POS) == pos) {
-                                    LOGGER.info("removing it :)");
-                                    entity.remove(RemovalReason.KILLED);
+                                //LOGGER.info("found cube: {}", entity);
+                                //LOGGER.info("It has spawn dropper position: {}", entity.getEntityData().get(WeightedCube.SPAWN_DROPPER_POS));
+                                //LOGGER.info("This dropper's position is: {}", pos);
+                                if (entity.getEntityData().get(WeightedCube.SPAWN_DROPPER_POS).getX() == pos.getX() &
+                                    entity.getEntityData().get(WeightedCube.SPAWN_DROPPER_POS).getY() == pos.getY() &
+                                    entity.getEntityData().get(WeightedCube.SPAWN_DROPPER_POS).getZ() == pos.getZ()) {
+                                        //LOGGER.info("removing it :)");
+                                        entity.remove(RemovalReason.KILLED);
                                 }
                             }
                         }
@@ -209,7 +213,7 @@ public class ApertureStoneCable extends Block {
                     entity.setPos(new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5));
                     entity.getEntityData().set(WeightedCube.SPAWN_DROPPER_POS, pos);
                     level.addFreshEntity(entity);
-                    LOGGER.info("created new cube");
+                    //LOGGER.info("created new cube");
                 }
             }
             level.setBlock(pos, state, 15);

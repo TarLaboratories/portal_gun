@@ -1,0 +1,14 @@
+{
+    "textures": {
+        "particle": "portalgun:block/weighted_cube_dropper_shutter",
+        "main": "portalgun:block/weighted_cube_dropper_shutter"
+    }, "elements": [
+        {
+            "from": [0, 0, 0],
+            "to": [16, 0, 16],
+            "faces": {
+                "down": {"texture": "#main"}
+            }
+        }
+    ]
+}
