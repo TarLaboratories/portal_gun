@@ -1,0 +1,32 @@
+{
+    "textures": {
+        "particle": "block/white_concrete",
+        "top": "portalgun:block/pressure_button_top",
+        "side": "portalgun:block/pressure_button_side",
+        "bottom": "portalgun:block/pressure_button_bottom"
+    },
+    "elements": [
+        {   "from": [0, 0, 0],
+            "to": [16, 1, 16],
+            "faces": {
+                "down": {"texture": "#bottom"},
+                "up": {"texture": "#top"},
+                "east": {"texture": "#side"},
+                "west": {"texture": "#side"},
+                "north": {"texture": "#side"},
+                "south": {"texture": "#side"}
+            }
+        },
+        {   "from": [1, 1, 1],
+            "to": [15, 2, 15],
+            "faces": {
+                "down": {"texture": "#bottom"},
+                "up": {"texture": "#top"},
+                "east": {"texture": "#side"},
+                "west": {"texture": "#side"},
+                "north": {"texture": "#side"},
+                "south": {"texture": "#side"}
+            }
+        }
+    ]
+}

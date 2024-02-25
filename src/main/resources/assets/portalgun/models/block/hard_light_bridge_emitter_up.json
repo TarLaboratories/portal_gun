@@ -10,7 +10,7 @@
         {   "from": [0, 15, 0],
             "to": [4, 16, 16],
             "faces": {
-                "down": {"texture": "#front"},
+                "down": {"texture": "#front", "rotation": 180, "uv": [6, 0, 10, 16]},
                 "up": {"texture": "#back"},
                 "north": {"texture": "#top"},
                 "south": {"texture": "#top"},

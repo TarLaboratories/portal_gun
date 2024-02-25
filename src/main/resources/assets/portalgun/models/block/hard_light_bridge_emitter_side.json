@@ -12,7 +12,7 @@
             "faces": {
                 "down": {"texture": "#top"},
                 "up": {"texture": "#top"},
-                "north": {"texture": "#front"},
+                "north": {"texture": "#front", "rotation": 180, "uv": [6, 0, 10, 16]},
                 "south": {"texture": "#back"},
                 "east": {"texture": "#side"},
                 "west": {"texture": "#side"}

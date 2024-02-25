@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "powered=false": {"model": "portalgun:block/weighted_storage_cube_block"},
+        "powered=true": {"model": "portalgun:block/weighted_storage_cube_block_powered"}
+    }
+}

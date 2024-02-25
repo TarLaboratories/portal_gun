@@ -13,13 +13,13 @@
             "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side_horizontal", "y": 270}
         },
         {   "when": {"AND": [{"facing": "south"}, {"axis": "x|z"}]},
-            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side", "y": 180}
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side", "x": 180}
         },
         {   "when": {"AND": [{"facing": "south"}, {"axis": "y"}]},
             "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side_horizontal", "y": 180}
         },
         {   "when": {"AND": [{"facing": "west"}, {"axis": "x|z"}]},
-            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side", "y": 270}
+            "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side", "y": 90, "x": 180}
         },
         {   "when": {"AND": [{"facing": "east"}, {"axis": "y"}]},
             "apply": {"model": "portalgun:block/hard_light_bridge_emitter_side_horizontal", "y": 90}

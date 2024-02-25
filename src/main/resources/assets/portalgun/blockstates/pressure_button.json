@@ -1,0 +1,40 @@
+{
+    "multipart": [
+        {   "when": {"AND": [{"face": "down"}]},
+            "apply": {"model": "portalgun:block/pressure_button"}
+        },
+        {   "when": {"AND": [{"face": "up"}]},
+            "apply": {"model": "portalgun:block/pressure_button", "x": 180}
+        },
+        {   "when": {"AND": [{"face": "north"}]},
+            "apply": {"model": "portalgun:block/pressure_button", "x": 270}
+        },
+        {   "when": {"AND": [{"face": "south"}]},
+            "apply": {"model": "portalgun:block/pressure_button", "x": 90}
+        },
+        {   "when": {"AND": [{"face": "east"}]},
+            "apply": {"model": "portalgun:block/pressure_button", "x": 90, "y": 270}
+        },
+        {   "when": {"AND": [{"face": "west"}]},
+            "apply": {"model": "portalgun:block/pressure_button", "x": 90, "y": 90}
+        },
+        {   "when": {"AND": [{"face": "down"}, {"powered": false}]},
+            "apply": {"model": "portalgun:block/pressure_button_not_powered"}
+        },
+        {   "when": {"AND": [{"face": "up"}, {"powered": false}]},
+            "apply": {"model": "portalgun:block/pressure_button_not_powered", "x": 180}
+        },
+        {   "when": {"AND": [{"face": "north"}, {"powered": false}]},
+            "apply": {"model": "portalgun:block/pressure_button_not_powered", "x": 270}
+        },
+        {   "when": {"AND": [{"face": "south"}, {"powered": false}]},
+            "apply": {"model": "portalgun:block/pressure_button_not_powered", "x": 90}
+        },
+        {   "when": {"AND": [{"face": "east"}, {"powered": false}]},
+            "apply": {"model": "portalgun:block/pressure_button_not_powered", "x": 90, "y": 270}
+        },
+        {   "when": {"AND": [{"face": "west"}, {"powered": false}]},
+            "apply": {"model": "portalgun:block/pressure_button_not_powered", "x": 90, "y": 90}
+        }
+    ]
+}

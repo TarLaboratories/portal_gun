@@ -55,7 +55,7 @@ public class PortalBlock extends Block implements EntityBlock {
     public static final BooleanProperty IS_ACTIVE = BooleanProperty.create("is_active");
     private static final VoxelShape INSIDE = box(1.0D, 1.0D, 1.0D, 15.0D, 15.0D, 15.0D);
     private static final VoxelShape UP_PANE = box(0.0D, 15.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-    private static final VoxelShape DOWN_PANE = box(0.0D, 0.0D, 0.0D, 1.0D, 16.0D, 16.0D);
+    private static final VoxelShape DOWN_PANE = box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
     private static final VoxelShape EAST_PANE = box(15.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
     private static final VoxelShape WEST_PANE = box(0.0D, 0.0D, 0.0D, 1.0D, 16.0D, 16.0D);
     private static final VoxelShape SOUTH_PANE = box(0.0D, 0.0D, 15.0D, 16.0D, 16.0D, 16.0D);

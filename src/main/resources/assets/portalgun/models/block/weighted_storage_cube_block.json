@@ -1,0 +1,18 @@
+{
+    "textures": {
+        "all": "portalgun:block/weighted_storage_cube_block"
+    }, "elements": [
+        {
+            "from": [-6, 0, -6],
+            "to": [6, 12, 6],
+            "faces": {
+                "down": {"texture": "#all", "uv": [0, 0, 8, 8]},
+                "up": {"texture": "#all", "uv": [0, 0, 8, 8]},
+                "north": {"texture": "#all", "uv": [0, 0, 8, 8]},
+                "south": {"texture": "#all", "uv": [0, 0, 8, 8]},
+                "east": {"texture": "#all", "uv": [0, 0, 8, 8]},
+                "west": {"texture": "#all", "uv": [0, 0, 8, 8]}
+            }
+        }
+    ]
+}

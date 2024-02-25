@@ -26,7 +26,7 @@ public class HardLightBridge extends Block {
         super.createBlockStateDefinition(builder.add(AXIS));
     }
 
-        public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         VoxelShape shape = Shapes.block();
         switch (state.getValue(AXIS)) {
             case X: shape = HARD_LIGHT_BRIDGE_X; break;

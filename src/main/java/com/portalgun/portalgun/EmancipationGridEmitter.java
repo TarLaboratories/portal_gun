@@ -7,7 +7,11 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -172,5 +176,20 @@ public class EmancipationGridEmitter extends Block {
 
     public static boolean canReplaceWithGrid(BlockState state) {
         return state.canBeReplaced();
+    }
+
+    @Override
+    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        if (!state.getValue(IS_ACTIVE)) return;
+        if (entity.getType() == EntityType.PLAYER) {
+            Player player = (Player) entity;
+            for (ItemStack itemstack : player.getInventory().items) {
+                if (itemstack.is(portalgun.PORTAL_GUN_ITEM.get())) {
+                    PortalGunItem.clearPortals(level, itemstack);
+                }
+            }
+        } else if (entity.getType() == portalgun.WEIGHTED_CUBE_ENTITYTYPE.get()) {
+            entity.remove(RemovalReason.KILLED);
+        }
     }
 }

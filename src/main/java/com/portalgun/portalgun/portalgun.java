@@ -21,6 +21,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.BlockEntityType.BlockEntitySupplier;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -53,23 +54,19 @@ import org.slf4j.Logger;
 // The value here should match an entry in the META-INF/mods.toml file
 @SuppressWarnings("unused")
 @Mod(portalgun.MODID)
-public class portalgun
-{
-    // Define mod id in a common place for everything to reference
+public class portalgun {
     public static final String MODID = "portalgun";
-    // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
     
-    // Create a Deferred Register to hold Blocks which will all be registered under the "portalgun" namespace
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    // Create a Deferred Register to hold Items which will all be registered under the "portalgun" namespace
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "portalgun" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
     
-    // Creates a new Block with the id "portalgun:example_block", combining the namespace and path
+
+    public static final RegistryObject<EntityType<?>> WEIGHTED_CUBE_ENTITYTYPE = ENTITIES.register("weighted_storage_cube", () -> EntityType.Builder.of(WeightedCube::new, MobCategory.MISC).sized(0.75F, 0.75F).fireImmune().build("portalgun:weighted_storage_cube"));
+
     public static final RegistryObject<Block> PORTAL_BLOCK = BLOCKS.register("portal_block", () -> new PortalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).destroyTime(-1)));
     public static final RegistryObject<Block> EMANCIPATION_GRID_EMITTER = BLOCKS.register("emancipation_grid_emitter", () -> new EmancipationGridEmitter(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission()));
     public static final RegistryObject<Block> EMANCIPATION_GRID_BLOCK = BLOCKS.register("emancipation_grid", () -> new EmancipationGridBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission().destroyTime(-1).noOcclusion().isViewBlocking((BlockState state, BlockGetter getter, BlockPos pos) -> false)));
@@ -81,12 +78,14 @@ public class portalgun
     public static final RegistryObject<Block> APERTURESTONE_INDICATOR = BLOCKS.register("aperturestone_indicator", () -> new ApertureStoneIndicator(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
     public static final RegistryObject<Block> HARD_LIGHT_BRIDGE_EMITTER = BLOCKS.register("hard_light_bridge_emitter", () -> new HardLightBridgeEmitter(BlockBehaviour.Properties.of().mapColor(DyeColor.WHITE)));
     public static final RegistryObject<Block> HARD_LIGHT_BRIDGE = BLOCKS.register("hard_light_bridge", () -> new HardLightBridge(BlockBehaviour.Properties.of().mapColor(DyeColor.LIGHT_BLUE)));
-    //static Block validBlocks = null;
+    public static final RegistryObject<Block> PRESSURE_BUTTON = BLOCKS.register("pressure_button", () -> new PressureButton(BlockBehaviour.Properties.of().mapColor(DyeColor.RED)));
+    public static final RegistryObject<Block> WEIGHTED_STORAGE_CUBE_BLOCK = BLOCKS.register("weighted_storage_cube_block", () -> new WeightedStorageCubeBlock(BlockBehaviour.Properties.of()));
+    public static final RegistryObject<Block> WEIGHTED_CUBE_DROPPER = BLOCKS.register("weighted_cube_dropper", () -> new WeightedCubeDropper(BlockBehaviour.Properties.of().mapColor(DyeColor.WHITE)));
+
     public static final RegistryObject<BlockEntityType<?>> PORTAL_BLOCK_BLOCKSTATE = BLOCK_ENTITIES.register("portal_block_blockentity", () -> BlockEntityType.Builder.of(PortalBlockBlockEntity::new, PORTAL_BLOCK.get()).build(null));
     public static final RegistryObject<BlockEntityType<?>> CREATIVE_APERTURESTONE_SOURCE_BLOCKENTITY = BLOCK_ENTITIES.register("creative_aperturestone_source_blockentity", () -> BlockEntityType.Builder.of(CreativeApertureStoneSourceBlockEntity::new, CREATIVE_APERTURESTONE_SOURCE.get()).build(null));
     public static final RegistryObject<BlockEntityType<?>> APERTURESTONE_LOGIC_GATE_BLOCKENTITY = BLOCK_ENTITIES.register("aperturestone_logic_gate", () -> BlockEntityType.Builder.of(ApertureStoneLogicGateBlockEntity::new, APERTURESTONE_LOGIC_GATE.get()).build(null));
-    // Creates a new BlockItem with the id "portalgun:example_block", combining the namespace and path
-    //public static final RegistryObject<Item> PORTAL_BLOCK_ITEM = ITEMS.register("portal_block", () -> new BlockItem(PORTAL_BLOCK.get(), new Item.Properties()));
+
     public static final RegistryObject<Item> PORTAL_GUN_ITEM = ITEMS.register("portal_gun", () -> new PortalGunItem(new Item.Properties()));
     public static final RegistryObject<Item> EMANCIPATION_GRID_EMITTER_ITEM = ITEMS.register("emancipation_grid_emitter", () -> new BlockItem(EMANCIPATION_GRID_EMITTER.get(), new Item.Properties()));
     public static final RegistryObject<Item> APERTURESTONE_CABLE_ITEM = ITEMS.register("aperturestone_cable", () -> new BlockItem(APERTURESTONE_CABLE.get(), new Item.Properties()));
@@ -96,7 +95,8 @@ public class portalgun
     public static final RegistryObject<Item> APERTURESTONE_LOGIC_GATE_ITEM = ITEMS.register("aperturestone_logic_gate", () -> new BlockItem(APERTURESTONE_LOGIC_GATE.get(), new Item.Properties()));
     public static final RegistryObject<Item> APERTURESTONE_INDICATOR_ITEM = ITEMS.register("aperturestone_indicator", () -> new BlockItem(APERTURESTONE_INDICATOR.get(), new Item.Properties()));
     public static final RegistryObject<Item> HARD_LIGHT_BRIDGE_EMITTER_ITEM = ITEMS.register("hard_light_bridge_emitter", () -> new BlockItem(HARD_LIGHT_BRIDGE_EMITTER.get(), new Item.Properties()));
-    //public static final RegistryObject<Item> INFINITE_REACH_ITEM = ITEMS.register("infinite_reach_item", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> PRESSURE_BUTTON_ITEM = ITEMS.register("pressure_button", () -> new BlockItem(PRESSURE_BUTTON.get(), new Item.Properties()));
+    public static final RegistryObject<Item> WEIGHTED_CUBE_DROPPER_ITEM = ITEMS.register("weighted_cube_dropper", () -> new BlockItem(WEIGHTED_CUBE_DROPPER.get(), new Item.Properties()));
     
     // Creates a creative tab with the id "portalgun:example_tab" for the example item, that is placed after the combat tab
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
@@ -112,6 +112,8 @@ public class portalgun
                 output.accept(APERTURESTONE_CABLE_ENCASED_ITEM.get());
                 output.accept(APERTURESTONE_INDICATOR_ITEM.get());
                 output.accept(HARD_LIGHT_BRIDGE_EMITTER_ITEM.get());
+                output.accept(PRESSURE_BUTTON_ITEM.get());
+                output.accept(WEIGHTED_CUBE_DROPPER_ITEM.get());
                 //output.accept(PORTAL_BLOCK_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).title(Component.translatable("Portal Gun Mod"))
             .build());
@@ -154,6 +156,7 @@ public class portalgun
         ITEMS.register(modEventBus);
 
         BLOCK_ENTITIES.register(modEventBus);
+        ENTITIES.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
 
@@ -215,11 +218,12 @@ public class portalgun
             ItemBlockRenderTypes.setRenderLayer(portalgun.HARD_LIGHT_BRIDGE_EMITTER.get(), RenderType.translucent());
         }
 
+        @SuppressWarnings("unchecked")
         @SubscribeEvent
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-            @SuppressWarnings("unchecked")
             BlockEntityType<PortalBlockBlockEntity> tmp = (BlockEntityType<PortalBlockBlockEntity>) PORTAL_BLOCK_BLOCKSTATE.get();
             event.registerBlockEntityRenderer(tmp, PortalBlockBlockEntityRenderer::new);
+            event.registerEntityRenderer(((EntityType<WeightedCube>) WEIGHTED_CUBE_ENTITYTYPE.get()), WeightedCubeRenderer::new);
         }
     }
 }
