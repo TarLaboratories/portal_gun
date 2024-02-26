@@ -65,8 +65,8 @@ public class portalgun {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
 
 
-    public static final RegistryObject<EntityType<?>> WEIGHTED_CUBE_ENTITYTYPE = ENTITIES.register("weighted_storage_cube", () -> EntityType.Builder.of(WeightedCube::new, MobCategory.MISC).sized(0.75F, 0.75F).fireImmune().build("portalgun:weighted_storage_cube"));
-    public static final RegistryObject<EntityType<?>> COMPANION_CUBE_ENTITYTYPE = ENTITIES.register("companion_cube", () -> EntityType.Builder.of(CompanionCube::new, MobCategory.MISC).sized(0.75F, 0.75F).fireImmune().build("portalgun:companion_cube"));
+    public static final RegistryObject<EntityType<?>> WEIGHTED_CUBE_ENTITYTYPE = ENTITIES.register("weighted_storage_cube", () -> EntityType.Builder.of(WeightedCube::new, MobCategory.MISC).sized(0.75F, 0.75F).fireImmune().setUpdateInterval(1).setTrackingRange(64).build("portalgun:weighted_storage_cube"));
+    public static final RegistryObject<EntityType<?>> COMPANION_CUBE_ENTITYTYPE = ENTITIES.register("companion_cube", () -> EntityType.Builder.of(CompanionCube::new, MobCategory.MISC).sized(0.75F, 0.75F).fireImmune().setUpdateInterval(1).setTrackingRange(64).build("portalgun:companion_cube"));
 
     public static final RegistryObject<Block> PORTAL_BLOCK = BLOCKS.register("portal_block", () -> new PortalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).destroyTime(-1)));
     public static final RegistryObject<Block> EMANCIPATION_GRID_EMITTER = BLOCKS.register("emancipation_grid_emitter", () -> new EmancipationGridEmitter(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission()));
@@ -129,6 +129,7 @@ public class portalgun {
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(PortalGunItem.class);
+        MinecraftForge.EVENT_BUS.register(WeightedCube.class);
 
         //modEventBus.addListener(this::addCreative);
 
@@ -167,7 +168,7 @@ public class portalgun {
             BlockEntityType<PortalBlockBlockEntity> tmp = (BlockEntityType<PortalBlockBlockEntity>) PORTAL_BLOCK_BLOCKSTATE.get();
             event.registerBlockEntityRenderer(tmp, PortalBlockBlockEntityRenderer::new);
             event.registerEntityRenderer(((EntityType<WeightedCube>) WEIGHTED_CUBE_ENTITYTYPE.get()), WeightedCubeRenderer::new);
-            event.registerEntityRenderer(((EntityType<CompanionCube>) COMPANION_CUBE_ENTITYTYPE.get()), CompanionCubeRender::new);
+            event.registerEntityRenderer(((EntityType<CompanionCube>) COMPANION_CUBE_ENTITYTYPE.get()), CompanionCubeRenderer::new);
         }
     }
 }
