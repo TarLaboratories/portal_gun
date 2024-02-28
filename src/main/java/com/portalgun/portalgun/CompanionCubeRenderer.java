@@ -29,7 +29,7 @@ public class CompanionCubeRenderer extends EntityRenderer<CompanionCube> {
 
     @Override
     public ResourceLocation getTextureLocation(CompanionCube entity) {
-        return new ResourceLocation("portalgun", "weighted_cube");
+        return new ResourceLocation("portalgun", "companion_cube");
     }
     
     public void render(CompanionCube cube, float a, float b, PoseStack pose, MultiBufferSource buffer_source, int c) {

@@ -55,7 +55,7 @@ public class ApertureStoneRedstoneSwitch extends Block {
 
     @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        ApertureStoneCable.setSignalStrength(level, pos, 0, null, new HashSet<BlockPos>());
+        ApertureStoneCable.setSignalStrength(level, pos, 0, null, new HashSet<BlockPos>(), null);
         super.playerWillDestroy(level, pos, state, player);
     }
 }

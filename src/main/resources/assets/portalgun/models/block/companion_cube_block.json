@@ -1,17 +1,17 @@
 {
     "textures": {
-        "all": "portalgun:block/companion_storage_cube_block"
+        "all": "portalgun:block/companion_cube_block"
     }, "elements": [
         {
             "from": [-6, 0, -6],
             "to": [6, 12, 6],
             "faces": {
-                "down": {"texture": "#all", "uv": [0, 0, 8, 8]},
-                "up": {"texture": "#all", "uv": [0, 0, 8, 8]},
-                "north": {"texture": "#all", "uv": [0, 0, 8, 8]},
-                "south": {"texture": "#all", "uv": [0, 0, 8, 8]},
-                "east": {"texture": "#all", "uv": [0, 0, 8, 8]},
-                "west": {"texture": "#all", "uv": [0, 0, 8, 8]}
+                "down": {"texture": "#all", "uv": [0, 0, 16, 16]},
+                "up": {"texture": "#all", "uv": [0, 0, 16, 16]},
+                "north": {"texture": "#all", "uv": [0, 0, 16, 16]},
+                "south": {"texture": "#all", "uv": [0, 0, 16, 16]},
+                "east": {"texture": "#all", "uv": [0, 0, 16, 16]},
+                "west": {"texture": "#all", "uv": [0, 0, 16, 16]}
             }
         }
     ]

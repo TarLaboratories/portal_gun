@@ -13,19 +13,20 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid=portalgun.MODID, bus=Mod.EventBusSubscriber.Bus.FORGE)
+//@Mod.EventBusSubscriber(modid=portalgun.MODID, bus=Mod.EventBusSubscriber.Bus.FORGE)
 public class WeightedCube extends Entity {
     @SuppressWarnings("unused")
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -35,6 +36,7 @@ public class WeightedCube extends Entity {
 
     public WeightedCube(EntityType<?> type, Level level) {
         super(type, level);
+        this.blocksBuilding = true;
     }
 
     @Override
@@ -51,6 +53,7 @@ public class WeightedCube extends Entity {
         this.entityData.set(SPAWN_DROPPER_POS, new BlockPos(tag.getIntArray("spawn_dropper_pos")[0], tag.getIntArray("spawn_dropper_pos")[1], tag.getIntArray("spawn_dropper_pos")[2]));
         if (tag.contains("picked_up_by")) this.entityData.set(PICKED_UP_BY, Optional.of(tag.getUUID("picked_up_by")));
         else this.entityData.set(PICKED_UP_BY, Optional.empty());
+        this.setBoundingBox(this.makeBoundingBox());
     }
 
     @Override
@@ -65,12 +68,17 @@ public class WeightedCube extends Entity {
     public void tick() {
         UUID picked_up_by_uuid = this.entityData.get(PICKED_UP_BY).orElse(null);
         if (picked_up_by_uuid != null) {
-            LOGGER.info("UUID is not null, it is {}, following player", this.entityData.get(PICKED_UP_BY));
             Player player = this.level().getPlayerByUUID(picked_up_by_uuid);
-            Vec3 following_pos = player.position();
-            following_pos = following_pos.add(player.getLookAngle());
-            this.moveTo(following_pos);
-            return;
+            if (player == null) {
+                this.entityData.set(PICKED_UP_BY, Optional.empty());
+                return;
+            }
+            if (distanceTo(player) < 3) {
+                Vec3 following_pos = player.getEyePosition().add(0, -0.375, 0);
+                following_pos = following_pos.add(player.getLookAngle().multiply(2, 2, 2));
+                this.move(MoverType.SELF, following_pos.subtract(this.position()));
+                return;
+            }
         }
         if (-this.getDeltaMovement().y < 1) this.addDeltaMovement(new Vec3(0, -0.1, 0));
         float flag = 1;
@@ -97,25 +105,36 @@ public class WeightedCube extends Entity {
         if (state != null & state.is(portalgun.PRESSURE_BUTTON.get())) state.getBlock().entityInside(state, this.level(), this.blockPosition(), this);
     }
 
-    @SubscribeEvent
-    public static void onEntityInteract(PlayerInteractEvent.EntityInteractSpecific event) {
-        LOGGER.info("Entity interact event fired, the target is {}", event.getTarget());
-        if (event.getTarget().getType() != portalgun.WEIGHTED_CUBE_ENTITYTYPE.get()) return;
-
-        SynchedEntityData entityData = event.getTarget().getEntityData();
-        Player player = event.getEntity();
-
-        LOGGER.info("Right clicked, optional uuid is: {}", entityData.get(PICKED_UP_BY));
-        if (entityData.get(PICKED_UP_BY).orElse(null) == null) {
-            entityData.set(PICKED_UP_BY, Optional.of(player.getUUID()));
-        } else {
-            entityData.set(PICKED_UP_BY, Optional.of(null));
-        }
-        event.setCanceled(true);
+    @Override
+    public boolean canBeCollidedWith() {
+        return this.entityData.get(PICKED_UP_BY).isEmpty();
     }
 
     @Override
-    public boolean canBeCollidedWith() {
+    public InteractionResult interact(Player player, InteractionHand hand) {
+        if (!player.isShiftKeyDown()) return InteractionResult.PASS;
+        if (entityData.get(PICKED_UP_BY).orElse(null) == null) {
+            entityData.set(PICKED_UP_BY, Optional.of(player.getUUID()));
+        } else {
+            entityData.set(PICKED_UP_BY, Optional.empty());
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    public boolean isPickable() {
+        return true;
+    }
+
+    public EntityDimensions getDimensions(Pose pose) {
+        return this.getDimensions();
+    }
+
+    private EntityDimensions getDimensions() {
+        return EntityDimensions.scalable(0.75F, 0.75F);
+    }
+
+    @Override
+    public boolean canCollideWith(Entity entity) {
         return true;
     }
 }

@@ -98,7 +98,10 @@ public class PressureButton extends Block {
         Boolean flag = false;
         if (level_.isClientSide) return;
         ServerLevel level = (ServerLevel) level_;
-        List<EntityType<?>> allowedEntities = List.of(EntityType.PLAYER, portalgun.WEIGHTED_CUBE_ENTITYTYPE.get());
+        List<EntityType<?>> allowedEntities = List.of(
+            EntityType.PLAYER, portalgun.WEIGHTED_CUBE_ENTITYTYPE.get(),
+            portalgun.COMPANION_CUBE_ENTITYTYPE.get()
+        );
         for (Entity entity : level.getAllEntities()) {
             if (entity.isRemoved()) continue;
             if (!allowedEntities.contains(entity.getType())) continue;

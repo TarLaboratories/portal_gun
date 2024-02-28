@@ -1,0 +1,48 @@
+{
+    "textures": {
+        "particle": "portalgun:block/weighted_cube_dropper_shutter",
+        "side": "portalgun:block/weighted_cube_dropper_fully_powered",
+        "bottom": "portalgun:block/weighted_cube_dropper_shutter_opened",
+        "top": "portalgun:block/weighted_cube_dropper_top"
+    }, "elements": [
+        {
+            "from": [0, 0, 0],
+            "to": [16, 16, 3],
+            "faces": {
+                "south": {"texture": "#side"},
+                "down": {"texture": "#bottom"}
+            }
+        },
+        {
+            "from": [0, 0, 0],
+            "to": [3, 16, 16],
+            "faces": {
+                "east": {"texture": "#side"},
+                "down": {"texture": "#bottom"}
+            }
+        },
+        {
+            "from": [0, 0, 13],
+            "to": [16, 16, 16],
+            "faces": {
+                "north": {"texture": "#side"},
+                "down": {"texture": "#bottom"}
+            }
+        },
+        {
+            "from": [13, 0, 0],
+            "to": [16, 16, 16],
+            "faces": {
+                "west": {"texture": "#side"},
+                "down": {"texture": "#bottom"}
+            }
+        },
+        {
+            "from": [0, 15, 0],
+            "to": [16, 16, 16],
+            "faces": {
+                "down": {"texture": "#top"}
+            }
+        }
+    ]
+}

@@ -81,7 +81,7 @@ public class ApertureStoneCable extends Block {
 
     @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        setSignalStrength(level, pos, 0, null, new HashSet<BlockPos>());
+        setSignalStrength(level, pos, 0, null, new HashSet<BlockPos>(), null);
         super.playerWillDestroy(level, pos, state, player);
     }
 
@@ -100,7 +100,7 @@ public class ApertureStoneCable extends Block {
         return getShape(state, getter, pos, null);
     }
 
-    public static void setSignalStrength(LevelAccessor level, BlockPos pos, int signal, Direction direction, Set<BlockPos> poslist) {
+    public static void setSignalStrength(LevelAccessor level, BlockPos pos, int signal, Direction direction, Set<BlockPos> poslist, BlockPos source_pos) {
         Set<BlockPos> pos_list = (Set<BlockPos>) poslist;
         if (pos_list.size() > 1000) return;
         if (pos_list.contains(pos)) return;
@@ -112,9 +112,21 @@ public class ApertureStoneCable extends Block {
             portalgun.APERTURESTONE_LOGIC_GATE.get(),
             portalgun.APERTURESTONE_INDICATOR.get(),
             portalgun.HARD_LIGHT_BRIDGE_EMITTER.get(),
-            portalgun.WEIGHTED_CUBE_DROPPER.get()
+            portalgun.WEIGHTED_CUBE_DROPPER.get(),
+            portalgun.COMPANION_CUBE_DROPPER.get()
+        );
+        List<Block> consumePower = List.of(
+            portalgun.EMANCIPATION_GRID_EMITTER.get(),
+            portalgun.HARD_LIGHT_BRIDGE_EMITTER.get(),
+            portalgun.WEIGHTED_CUBE_DROPPER.get(),
+            portalgun.COMPANION_CUBE_DROPPER.get()
         );
         if (!canSetSignalStrength.contains(level.getBlockState(pos).getBlock())) return;
+        if (consumePower.contains(level.getBlockState(pos).getBlock())) {
+            if (source_pos != null && level.getBlockState(source_pos).is(portalgun.APERTURESTONE_SOURCE.get()) && level.getBlockEntity(source_pos) != null) {
+                ((ApertureStoneSourceBlockEntity) level.getBlockEntity(source_pos)).connected_devices.add(pos);
+            }
+        }
         if (direction == null) {}
         else if (level.getBlockState(pos).is(portalgun.EMANCIPATION_GRID_EMITTER.get())) {
             if (signal >= 100) EmancipationGridEmitter.tryActivate(level.getBlockState(pos), level, pos);
@@ -130,7 +142,7 @@ public class ApertureStoneCable extends Block {
                 }
             }
             if (!flag) {
-                setSignalStrength(level, pos, Math.min(signal, 50), direction, poslist);
+                setSignalStrength(level, pos, Math.min(signal, 50), direction, poslist, source_pos);
                 return;
             }
         } else if (level.getBlockState(pos).is(portalgun.APERTURESTONE_LOGIC_GATE.get())) {
@@ -157,7 +169,7 @@ public class ApertureStoneCable extends Block {
                     case UP: if (!state.getValue(ApertureStoneCable.UP)) continue; direction_power = blockentity.UP_POWER; break;
                 }
                 if (direction_power == 0) {
-                    setSignalStrength(level, pos.relative(state.getValue(ApertureStoneLogicGate.OUTPUT_FACE)), 0, state.getValue(ApertureStoneLogicGate.OUTPUT_FACE).getOpposite(), poslist);
+                    setSignalStrength(level, pos.relative(state.getValue(ApertureStoneLogicGate.OUTPUT_FACE)), 0, state.getValue(ApertureStoneLogicGate.OUTPUT_FACE).getOpposite(), poslist, source_pos);
                     level.setBlock(pos, state.setValue(IS_POWERED, RedstoneSide.NONE), 15);
                     return;
                 }
@@ -166,10 +178,10 @@ public class ApertureStoneCable extends Block {
             }
             if (state.getValue(ApertureStoneLogicGate.LOGIC_GATE_TYPE).applyFunction(input)) {
                 state = state.setValue(IS_POWERED, RedstoneSide.UP);
-                setSignalStrength(level, pos.relative(state.getValue(ApertureStoneLogicGate.OUTPUT_FACE)), Math.max(signal, 100), state.getValue(ApertureStoneLogicGate.OUTPUT_FACE).getOpposite(), poslist);
+                setSignalStrength(level, pos.relative(state.getValue(ApertureStoneLogicGate.OUTPUT_FACE)), Math.max(signal, 100), state.getValue(ApertureStoneLogicGate.OUTPUT_FACE).getOpposite(), poslist, source_pos);
             } else {
                 state = state.setValue(IS_POWERED, RedstoneSide.SIDE);
-                setSignalStrength(level, pos.relative(state.getValue(ApertureStoneLogicGate.OUTPUT_FACE)), Math.min(signal, 50), state.getValue(ApertureStoneLogicGate.OUTPUT_FACE).getOpposite(), poslist);
+                setSignalStrength(level, pos.relative(state.getValue(ApertureStoneLogicGate.OUTPUT_FACE)), Math.min(signal, 50), state.getValue(ApertureStoneLogicGate.OUTPUT_FACE).getOpposite(), poslist, source_pos);
             }
             level.setBlock(pos, state, 15);
             return;
@@ -181,7 +193,7 @@ public class ApertureStoneCable extends Block {
                 ((AnyBlockEmitter) level.getBlockState(pos).getBlock()).deactivate(level, pos);
             }
             return;
-        } else if (level.getBlockState(pos).is(portalgun.WEIGHTED_CUBE_DROPPER.get())) {
+        } else if (level.getBlockState(pos).is(portalgun.WEIGHTED_CUBE_DROPPER.get()) || level.getBlockState(pos).is(portalgun.COMPANION_CUBE_DROPPER.get())) {
             BlockState state = level.getBlockState(pos);
             if (signal == 0) {
                 state = state.setValue(WeightedCubeDropper.POWERED, RedstoneSide.NONE);
@@ -194,6 +206,8 @@ public class ApertureStoneCable extends Block {
                     EntityType<?> entitytype = ((WeightedCubeDropper) state.getBlock()).getDroppedEntityType();
                     if (!level.isClientSide()) {
                         for (Entity entity : ((ServerLevel) level).getAllEntities()) {
+                            if (entity == null) continue;
+                            if (entity.isRemoved()) continue;
                             if (entity.getType() == entitytype) {
                                 //LOGGER.info("found cube: {}", entity);
                                 //LOGGER.info("It has spawn dropper position: {}", entity.getEntityData().get(WeightedCube.SPAWN_DROPPER_POS));
@@ -227,12 +241,12 @@ public class ApertureStoneCable extends Block {
         if (signal == 0) state = state.setValue(IS_POWERED, RedstoneSide.NONE);
         else if (signal < 100) state = state.setValue(IS_POWERED, RedstoneSide.SIDE);
         else state = state.setValue(IS_POWERED, RedstoneSide.UP);
-        if (state.getValue(NORTH) && direction != Direction.NORTH) setSignalStrength(level, pos.north(), signal, Direction.SOUTH, pos_list);
-        if (state.getValue(SOUTH) && direction != Direction.SOUTH) setSignalStrength(level, pos.south(), signal, Direction.NORTH, pos_list);
-        if (state.getValue(EAST) && direction != Direction.EAST) setSignalStrength(level, pos.east(), signal, Direction.WEST, pos_list);
-        if (state.getValue(WEST) && direction != Direction.WEST) setSignalStrength(level, pos.west(), signal, Direction.EAST, pos_list);
-        if (state.getValue(DOWN) && direction != Direction.DOWN) setSignalStrength(level, pos.below(), signal, Direction.UP, pos_list);
-        if (state.getValue(UP) && direction != Direction.UP) setSignalStrength(level, pos.above(), signal, Direction.DOWN, pos_list);
+        if (state.getValue(NORTH) && direction != Direction.NORTH) setSignalStrength(level, pos.north(), signal, Direction.SOUTH, pos_list, source_pos);
+        if (state.getValue(SOUTH) && direction != Direction.SOUTH) setSignalStrength(level, pos.south(), signal, Direction.NORTH, pos_list, source_pos);
+        if (state.getValue(EAST) && direction != Direction.EAST) setSignalStrength(level, pos.east(), signal, Direction.WEST, pos_list, source_pos);
+        if (state.getValue(WEST) && direction != Direction.WEST) setSignalStrength(level, pos.west(), signal, Direction.EAST, pos_list, source_pos);
+        if (state.getValue(DOWN) && direction != Direction.DOWN) setSignalStrength(level, pos.below(), signal, Direction.UP, pos_list, source_pos);
+        if (state.getValue(UP) && direction != Direction.UP) setSignalStrength(level, pos.above(), signal, Direction.DOWN, pos_list, source_pos);
         level.setBlock(pos, state, 15);
     }
 
@@ -246,7 +260,9 @@ public class ApertureStoneCable extends Block {
             portalgun.APERTURESTONE_LOGIC_GATE.get(),
             portalgun.APERTURESTONE_INDICATOR.get(),
             portalgun.HARD_LIGHT_BRIDGE_EMITTER.get(),
-            portalgun.WEIGHTED_CUBE_DROPPER.get()
+            portalgun.WEIGHTED_CUBE_DROPPER.get(),
+            portalgun.COMPANION_CUBE_DROPPER.get(),
+            portalgun.APERTURESTONE_SOURCE.get()
         );
         return can_connect.contains(state.getBlock());
     }

@@ -12,19 +12,19 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CreativeApertureStoneSource extends Block implements EntityBlock {
-    public CreativeApertureStoneSource(Properties properties) {
+public class ApertureStoneSource extends Block implements EntityBlock {
+    public ApertureStoneSource(Properties properties) {
         super(properties);
     }
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CreativeApertureStoneSourceBlockEntity(pos, state);
+        return new ApertureStoneSourceBlockEntity(pos, state);
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return type == portalgun.CREATIVE_APERTURESTONE_SOURCE_BLOCKENTITY.get() ? CreativeApertureStoneSourceBlockEntity::tick : null;
+        return type == portalgun.APERTURESTONE_SOURCE_BLOCKENTITY.get() ? ApertureStoneSourceBlockEntity::tick : null;
     }
 
     @Override

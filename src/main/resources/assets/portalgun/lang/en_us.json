@@ -10,6 +10,9 @@
     "block.portalgun.aperturestone_indicator": "Aperturestone Indicator",
     "block.portalgun.hard_light_bridge_emitter": "Hard Light Bridge Emitter",
     "block.portalgun.pressure_button": "Pressure Button",
+    "block.portalgun.weighted_cube_dropper": "Weighted Storage Cube Dropper",
+    "block.portalgun.companion_cube_dropper": "Companion Cube Dropper",
+    "block.portalgun.aperturestone_source": "Aperturestone Source",
     "item.portalgun.portal_gun": "Portal Gun",
     "item.portalgun.emancipation_grid_emitter": "Emancipation Grid Emitter",
     "item.portalgun.aperturestone_cable": "Aperturestone Cable",
@@ -20,5 +23,9 @@
     "item.portalgun.aperturestone_indicator": "Aperturestone Indicator",
     "item.portalgun.hard_light_bridge_emitter": "Hard Light Bridge Emitter",
     "item.portalgun.pressure_button": "Pressure Button",
-    "entity.portalgun.weighted_storage_cube": "Weighted Storage Cube"
+    "item.portalgun.weighted_cube_dropper": "Weighted Storage Cube Dropper",
+    "item.portalgun.companion_cube_dropper": "Companion Cube Dropper",
+    "item.portalgun.aperturestone_source": "Aperturestone Source",
+    "entity.portalgun.weighted_storage_cube": "Weighted Storage Cube",
+    "entity.portalgun.companion_cube": "Companion Cube"
 }

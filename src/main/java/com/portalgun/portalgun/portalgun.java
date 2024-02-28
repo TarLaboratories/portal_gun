@@ -82,10 +82,13 @@ public class portalgun {
     public static final RegistryObject<Block> PRESSURE_BUTTON = BLOCKS.register("pressure_button", () -> new PressureButton(BlockBehaviour.Properties.of().mapColor(DyeColor.RED)));
     public static final RegistryObject<Block> WEIGHTED_STORAGE_CUBE_BLOCK = BLOCKS.register("weighted_storage_cube_block", () -> new WeightedStorageCubeBlock(BlockBehaviour.Properties.of()));
     public static final RegistryObject<Block> WEIGHTED_CUBE_DROPPER = BLOCKS.register("weighted_cube_dropper", () -> new WeightedCubeDropper(BlockBehaviour.Properties.of().mapColor(DyeColor.WHITE)));
+    public static final RegistryObject<Block> COMPANION_CUBE_DROPPER = BLOCKS.register("companion_cube_dropper", () -> new CompanionCubeDropper(BlockBehaviour.Properties.of().mapColor(DyeColor.WHITE)));
+    public static final RegistryObject<Block> APERTURESTONE_SOURCE = BLOCKS.register("aperturestone_source", () -> new ApertureStoneSource(BlockBehaviour.Properties.of().mapColor(DyeColor.WHITE)));
 
     public static final RegistryObject<BlockEntityType<?>> PORTAL_BLOCK_BLOCKSTATE = BLOCK_ENTITIES.register("portal_block_blockentity", () -> BlockEntityType.Builder.of(PortalBlockBlockEntity::new, PORTAL_BLOCK.get()).build(null));
     public static final RegistryObject<BlockEntityType<?>> CREATIVE_APERTURESTONE_SOURCE_BLOCKENTITY = BLOCK_ENTITIES.register("creative_aperturestone_source_blockentity", () -> BlockEntityType.Builder.of(CreativeApertureStoneSourceBlockEntity::new, CREATIVE_APERTURESTONE_SOURCE.get()).build(null));
     public static final RegistryObject<BlockEntityType<?>> APERTURESTONE_LOGIC_GATE_BLOCKENTITY = BLOCK_ENTITIES.register("aperturestone_logic_gate", () -> BlockEntityType.Builder.of(ApertureStoneLogicGateBlockEntity::new, APERTURESTONE_LOGIC_GATE.get()).build(null));
+    public static final RegistryObject<BlockEntityType<?>> APERTURESTONE_SOURCE_BLOCKENTITY = BLOCK_ENTITIES.register("aperturestone_source_blockentity", () -> BlockEntityType.Builder.of(ApertureStoneSourceBlockEntity::new, APERTURESTONE_SOURCE.get()).build(null));
 
     public static final RegistryObject<Item> PORTAL_GUN_ITEM = ITEMS.register("portal_gun", () -> new PortalGunItem(new Item.Properties()));
     public static final RegistryObject<Item> EMANCIPATION_GRID_EMITTER_ITEM = ITEMS.register("emancipation_grid_emitter", () -> new BlockItem(EMANCIPATION_GRID_EMITTER.get(), new Item.Properties()));
@@ -98,6 +101,8 @@ public class portalgun {
     public static final RegistryObject<Item> HARD_LIGHT_BRIDGE_EMITTER_ITEM = ITEMS.register("hard_light_bridge_emitter", () -> new BlockItem(HARD_LIGHT_BRIDGE_EMITTER.get(), new Item.Properties()));
     public static final RegistryObject<Item> PRESSURE_BUTTON_ITEM = ITEMS.register("pressure_button", () -> new BlockItem(PRESSURE_BUTTON.get(), new Item.Properties()));
     public static final RegistryObject<Item> WEIGHTED_CUBE_DROPPER_ITEM = ITEMS.register("weighted_cube_dropper", () -> new BlockItem(WEIGHTED_CUBE_DROPPER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> COMPANION_CUBE_DROPPER_ITEM = ITEMS.register("companion_cube_dropper", () -> new BlockItem(COMPANION_CUBE_DROPPER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> APERTURESTONE_SOURCE_ITEM = ITEMS.register("aperturestone_source", () -> new BlockItem(APERTURESTONE_SOURCE.get(), new Item.Properties()));
     
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("portalgun_mod_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
@@ -114,6 +119,8 @@ public class portalgun {
                 output.accept(HARD_LIGHT_BRIDGE_EMITTER_ITEM.get());
                 output.accept(PRESSURE_BUTTON_ITEM.get());
                 output.accept(WEIGHTED_CUBE_DROPPER_ITEM.get());
+                output.accept(COMPANION_CUBE_DROPPER_ITEM.get());
+                output.accept(APERTURESTONE_SOURCE_ITEM.get());
                 //output.accept(PORTAL_BLOCK_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).title(Component.translatable("Portal Gun Mod"))
             .build());
@@ -129,7 +136,7 @@ public class portalgun {
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(PortalGunItem.class);
-        MinecraftForge.EVENT_BUS.register(WeightedCube.class);
+        //MinecraftForge.EVENT_BUS.register(WeightedCube.class);
 
         //modEventBus.addListener(this::addCreative);
 
@@ -160,6 +167,7 @@ public class portalgun {
             ItemBlockRenderTypes.setRenderLayer(portalgun.HARD_LIGHT_BRIDGE.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(portalgun.HARD_LIGHT_BRIDGE_EMITTER.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(portalgun.WEIGHTED_CUBE_DROPPER.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(portalgun.COMPANION_CUBE_DROPPER.get(), RenderType.translucent());
         }
 
         @SuppressWarnings("unchecked")
