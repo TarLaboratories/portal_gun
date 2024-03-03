@@ -1,8 +1,8 @@
-#Portal Gun Mod for Forge 1.20.2
+Portal Gun Mod for Forge 1.20.2
 --------------------------------
 I realised that there aren't really Portal mods for newer versions of the game on Forge, so I decided to make my own :)
 
-#Features
+Features
 --------------------------------
 Features include but are not limited to:
  - Portal Gun
@@ -13,10 +13,10 @@ Features include but are not limited to:
  - Hard Light Bridge
  - Aperturestone (An entire energy system for testing elements, includes redstone I/O and logic gates)
 
-#Installation
+Installation instructions
 --------------------------------
 No special installation instructions, install it as any other Forge mod: put the .jar file into the mods folder
 
-#Screenshots
+Screenshots
 --------------------------------
 ...
