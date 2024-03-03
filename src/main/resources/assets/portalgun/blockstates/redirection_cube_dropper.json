@@ -1,0 +1,19 @@
+{
+    "multipart": [
+        {   "when": {"AND": [{"powered": "none"}]},
+            "apply": {"model": "portalgun:block/weighted_cube_dropper_not_powered"}
+        },
+        {   "when": {"AND": [{"powered": "side"}]},
+            "apply": {"model": "portalgun:block/weighted_cube_dropper_partially_powered"}
+        },
+        {   "when": {"AND": [{"powered": "up"}]},
+            "apply": {"model": "portalgun:block/weighted_cube_dropper_fully_powered"}
+        },
+        {   "when": {"AND": [{"active": false}]},
+            "apply": {"model": "portalgun:block/weighted_cube_dropper_shutter"}
+        },
+        {   "when": {"AND": [{"active": true}]},
+            "apply": {"model": "portalgun:block/weighted_cube_dropper_active"}
+        }
+    ]
+}

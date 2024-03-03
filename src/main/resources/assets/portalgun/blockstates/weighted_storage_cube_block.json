@@ -2,6 +2,8 @@
     "variants": {
         "powered=false,variant=0": {"model": "portalgun:block/weighted_storage_cube_block"},
         "powered=true,variant=0": {"model": "portalgun:block/weighted_storage_cube_block_powered"},
-        "variant=1": {"model": "portalgun:block/companion_cube_block"}
+        "variant=1": {"model": "portalgun:block/companion_cube_block"},
+        "active=false,variant=2": {"model": "portalgun:block/redirection_cube_block"},
+        "active=true,variant=2": {"model": "portalgun:block/redirection_cube_block_active"}
     }
 }
