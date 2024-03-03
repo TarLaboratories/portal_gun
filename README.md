@@ -20,3 +20,6 @@ No special installation instructions, install it as any other Forge mod: put the
 Screenshots
 --------------------------------
 ![image](2024-03-03_22.01.10.png)
+![image](2024-03-03_22.09.54.png)
+![image](2024-03-03_22.13.31.png)
+![image](2024-03-03_22.17.41.png)
