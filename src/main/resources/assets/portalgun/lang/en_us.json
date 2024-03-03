@@ -13,6 +13,9 @@
     "block.portalgun.weighted_cube_dropper": "Weighted Storage Cube Dropper",
     "block.portalgun.companion_cube_dropper": "Companion Cube Dropper",
     "block.portalgun.aperturestone_source": "Aperturestone Source",
+    "block.portalgun.laser_emitter": "Laser Emitter",
+    "block.portalgun.laser_catcher": "Laser Catcher",
+    "block.portalgun.laser_block": "Laser",
     "item.portalgun.portal_gun": "Portal Gun",
     "item.portalgun.emancipation_grid_emitter": "Emancipation Grid Emitter",
     "item.portalgun.aperturestone_cable": "Aperturestone Cable",
@@ -26,6 +29,8 @@
     "item.portalgun.weighted_cube_dropper": "Weighted Storage Cube Dropper",
     "item.portalgun.companion_cube_dropper": "Companion Cube Dropper",
     "item.portalgun.aperturestone_source": "Aperturestone Source",
+    "item.portalgun.laser_emitter": "Laser Emitter",
+    "item.portalgun.laser_catcher": "Laser Catcher",
     "entity.portalgun.weighted_storage_cube": "Weighted Storage Cube",
     "entity.portalgun.companion_cube": "Companion Cube"
 }

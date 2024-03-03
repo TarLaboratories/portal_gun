@@ -1,0 +1,16 @@
+{
+    "variants": {
+        "is_active=false,facing=north": {"model": "portalgun:block/laser_emitter"},
+        "is_active=false,facing=south": {"model": "portalgun:block/laser_emitter", "y": 180},
+        "is_active=false,facing=east": {"model": "portalgun:block/laser_emitter", "y": 90},
+        "is_active=false,facing=west": {"model": "portalgun:block/laser_emitter", "y": 270},
+        "is_active=false,facing=up": {"model": "portalgun:block/laser_emitter", "x": 270},
+        "is_active=false,facing=down": {"model": "portalgun:block/laser_emitter", "x": 90},
+        "is_active=true,facing=north": {"model": "portalgun:block/laser_emitter_active"},
+        "is_active=true,facing=south": {"model": "portalgun:block/laser_emitter_active", "y": 180},
+        "is_active=true,facing=east": {"model": "portalgun:block/laser_emitter_active", "y": 90},
+        "is_active=true,facing=west": {"model": "portalgun:block/laser_emitter_active", "y": 270},
+        "is_active=true,facing=up": {"model": "portalgun:block/laser_emitter_active", "x": 270},
+        "is_active=true,facing=down": {"model": "portalgun:block/laser_emitter_active", "x": 90}
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "textures": {
+        "particle": "portalgun:block/laser",
+        "main": "portalgun:block/laser"
+    },
+    "elements": [
+        {
+            "from": [7, 7, 0],
+            "to": [9, 9, 16],
+            "faces": {
+                "down": {"texture": "#main", "uv": [0, 7, 16, 9]},
+                "up": {"texture": "#main", "uv": [0, 7, 16, 9]},
+                "east": {"texture": "#main"},
+                "west": {"texture": "#main"}
+            }
+        }
+    ]
+}

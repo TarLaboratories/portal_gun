@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "axis=x": {"model": "portalgun:block/laser_block", "y": 90},
+        "axis=y": {"model": "portalgun:block/laser_block", "x": 90},
+        "axis=z": {"model": "portalgun:block/laser_block"}
+    }
+}

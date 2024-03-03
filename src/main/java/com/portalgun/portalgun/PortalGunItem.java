@@ -225,6 +225,7 @@ public class PortalGunItem extends Item implements ClickHandlingItem {
         if (state.canBeReplaced()) return true;
         if (state.is(portalgun.HARD_LIGHT_BRIDGE.get())) return true;
         if (state.is(portalgun.HARD_LIGHT_BRIDGE_EMITTER.get())) return true;
+        if (state.is(portalgun.LASER_BLOCK.get())) return true;
         return false;
     }
 }

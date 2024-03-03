@@ -113,18 +113,24 @@ public class ApertureStoneCable extends Block {
             portalgun.APERTURESTONE_INDICATOR.get(),
             portalgun.HARD_LIGHT_BRIDGE_EMITTER.get(),
             portalgun.WEIGHTED_CUBE_DROPPER.get(),
-            portalgun.COMPANION_CUBE_DROPPER.get()
+            portalgun.COMPANION_CUBE_DROPPER.get(),
+            portalgun.APERTURESTONE_SOURCE.get(),
+            portalgun.LASER_EMITTER.get(),
+            portalgun.LASER_CATCHER.get()
         );
         List<Block> consumePower = List.of(
             portalgun.EMANCIPATION_GRID_EMITTER.get(),
             portalgun.HARD_LIGHT_BRIDGE_EMITTER.get(),
             portalgun.WEIGHTED_CUBE_DROPPER.get(),
-            portalgun.COMPANION_CUBE_DROPPER.get()
+            portalgun.COMPANION_CUBE_DROPPER.get(),
+            portalgun.LASER_EMITTER.get()
         );
         if (!canSetSignalStrength.contains(level.getBlockState(pos).getBlock())) return;
         if (consumePower.contains(level.getBlockState(pos).getBlock())) {
             if (source_pos != null && level.getBlockState(source_pos).is(portalgun.APERTURESTONE_SOURCE.get()) && level.getBlockEntity(source_pos) != null) {
                 ((ApertureStoneSourceBlockEntity) level.getBlockEntity(source_pos)).connected_devices.add(pos);
+            } else if (source_pos != null && level.getBlockState(source_pos).is(portalgun.LASER_CATCHER.get()) && level.getBlockEntity(source_pos) != null) {
+                ((LaserCatcherBlockEntity) level.getBlockEntity(source_pos)).connected_devices.add(pos);
             }
         }
         if (direction == null) {}
@@ -185,7 +191,7 @@ public class ApertureStoneCable extends Block {
             }
             level.setBlock(pos, state, 15);
             return;
-        } else if (level.getBlockState(pos).is(portalgun.HARD_LIGHT_BRIDGE_EMITTER.get())) {
+        } else if (level.getBlockState(pos).is(portalgun.HARD_LIGHT_BRIDGE_EMITTER.get()) || level.getBlockState(pos).is(portalgun.LASER_EMITTER.get())) {
             if (signal >= 100) {
                 ((AnyBlockEmitter) level.getBlockState(pos).getBlock()).emmit(level, pos);
                 return;
@@ -232,6 +238,16 @@ public class ApertureStoneCable extends Block {
             }
             level.setBlock(pos, state, 15);
             return;
+        } else if (level.getBlockState(pos).is(portalgun.APERTURESTONE_SOURCE.get())) {
+            if (level.getBlockEntity(pos) != null) {
+                ((ApertureStoneSourceBlockEntity) level.getBlockEntity(pos)).connected_devices.clear();
+            }
+            return;
+        } else if (level.getBlockState(pos).is(portalgun.LASER_CATCHER.get())) {
+            if (level.getBlockEntity(pos) != null) {
+                ((LaserCatcherBlockEntity) level.getBlockEntity(pos)).connected_devices.clear();
+            }
+            return;
         }
         pos_list.add(pos);
         BlockState state = level.getBlockState(pos);
@@ -262,7 +278,9 @@ public class ApertureStoneCable extends Block {
             portalgun.HARD_LIGHT_BRIDGE_EMITTER.get(),
             portalgun.WEIGHTED_CUBE_DROPPER.get(),
             portalgun.COMPANION_CUBE_DROPPER.get(),
-            portalgun.APERTURESTONE_SOURCE.get()
+            portalgun.APERTURESTONE_SOURCE.get(),
+            portalgun.LASER_EMITTER.get(),
+            portalgun.LASER_CATCHER.get()
         );
         return can_connect.contains(state.getBlock());
     }

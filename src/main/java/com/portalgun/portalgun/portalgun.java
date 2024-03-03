@@ -84,11 +84,15 @@ public class portalgun {
     public static final RegistryObject<Block> WEIGHTED_CUBE_DROPPER = BLOCKS.register("weighted_cube_dropper", () -> new WeightedCubeDropper(BlockBehaviour.Properties.of().mapColor(DyeColor.WHITE)));
     public static final RegistryObject<Block> COMPANION_CUBE_DROPPER = BLOCKS.register("companion_cube_dropper", () -> new CompanionCubeDropper(BlockBehaviour.Properties.of().mapColor(DyeColor.WHITE)));
     public static final RegistryObject<Block> APERTURESTONE_SOURCE = BLOCKS.register("aperturestone_source", () -> new ApertureStoneSource(BlockBehaviour.Properties.of().mapColor(DyeColor.WHITE)));
+    public static final RegistryObject<Block> LASER_EMITTER = BLOCKS.register("laser_emitter", () -> new LaserEmitter(BlockBehaviour.Properties.of().mapColor(DyeColor.ORANGE)));
+    public static final RegistryObject<Block> LASER_BLOCK = BLOCKS.register("laser_block", () -> new LaserBlock(BlockBehaviour.Properties.of().mapColor(DyeColor.RED).noCollission()));
+    public static final RegistryObject<Block> LASER_CATCHER = BLOCKS.register("laser_catcher", () -> new LaserCatcher(BlockBehaviour.Properties.of().mapColor(DyeColor.BLACK)));
 
     public static final RegistryObject<BlockEntityType<?>> PORTAL_BLOCK_BLOCKSTATE = BLOCK_ENTITIES.register("portal_block_blockentity", () -> BlockEntityType.Builder.of(PortalBlockBlockEntity::new, PORTAL_BLOCK.get()).build(null));
     public static final RegistryObject<BlockEntityType<?>> CREATIVE_APERTURESTONE_SOURCE_BLOCKENTITY = BLOCK_ENTITIES.register("creative_aperturestone_source_blockentity", () -> BlockEntityType.Builder.of(CreativeApertureStoneSourceBlockEntity::new, CREATIVE_APERTURESTONE_SOURCE.get()).build(null));
     public static final RegistryObject<BlockEntityType<?>> APERTURESTONE_LOGIC_GATE_BLOCKENTITY = BLOCK_ENTITIES.register("aperturestone_logic_gate", () -> BlockEntityType.Builder.of(ApertureStoneLogicGateBlockEntity::new, APERTURESTONE_LOGIC_GATE.get()).build(null));
     public static final RegistryObject<BlockEntityType<?>> APERTURESTONE_SOURCE_BLOCKENTITY = BLOCK_ENTITIES.register("aperturestone_source_blockentity", () -> BlockEntityType.Builder.of(ApertureStoneSourceBlockEntity::new, APERTURESTONE_SOURCE.get()).build(null));
+    public static final RegistryObject<BlockEntityType<?>> LASER_CATCHER_BLOCKENTITY = BLOCK_ENTITIES.register("laser_catcher_blockentity", () -> BlockEntityType.Builder.of(LaserCatcherBlockEntity::new, LASER_CATCHER.get()).build(null));
 
     public static final RegistryObject<Item> PORTAL_GUN_ITEM = ITEMS.register("portal_gun", () -> new PortalGunItem(new Item.Properties()));
     public static final RegistryObject<Item> EMANCIPATION_GRID_EMITTER_ITEM = ITEMS.register("emancipation_grid_emitter", () -> new BlockItem(EMANCIPATION_GRID_EMITTER.get(), new Item.Properties()));
@@ -103,6 +107,8 @@ public class portalgun {
     public static final RegistryObject<Item> WEIGHTED_CUBE_DROPPER_ITEM = ITEMS.register("weighted_cube_dropper", () -> new BlockItem(WEIGHTED_CUBE_DROPPER.get(), new Item.Properties()));
     public static final RegistryObject<Item> COMPANION_CUBE_DROPPER_ITEM = ITEMS.register("companion_cube_dropper", () -> new BlockItem(COMPANION_CUBE_DROPPER.get(), new Item.Properties()));
     public static final RegistryObject<Item> APERTURESTONE_SOURCE_ITEM = ITEMS.register("aperturestone_source", () -> new BlockItem(APERTURESTONE_SOURCE.get(), new Item.Properties()));
+    public static final RegistryObject<Item> LASER_EMITTER_ITEM = ITEMS.register("laser_emitter", () -> new BlockItem(LASER_EMITTER.get(), new Item.Properties()));
+    public static final RegistryObject<Item> LASER_CATCHER_ITEM = ITEMS.register("laser_catcher", () -> new BlockItem(LASER_CATCHER.get(), new Item.Properties()));
     
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("portalgun_mod_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
@@ -121,6 +127,8 @@ public class portalgun {
                 output.accept(WEIGHTED_CUBE_DROPPER_ITEM.get());
                 output.accept(COMPANION_CUBE_DROPPER_ITEM.get());
                 output.accept(APERTURESTONE_SOURCE_ITEM.get());
+                output.accept(LASER_EMITTER_ITEM.get());
+                output.accept(LASER_CATCHER_ITEM.get());
                 //output.accept(PORTAL_BLOCK_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).title(Component.translatable("Portal Gun Mod"))
             .build());
@@ -168,6 +176,8 @@ public class portalgun {
             ItemBlockRenderTypes.setRenderLayer(portalgun.HARD_LIGHT_BRIDGE_EMITTER.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(portalgun.WEIGHTED_CUBE_DROPPER.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(portalgun.COMPANION_CUBE_DROPPER.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(portalgun.LASER_EMITTER.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(portalgun.LASER_BLOCK.get(), RenderType.translucent());
         }
 
         @SuppressWarnings("unchecked")

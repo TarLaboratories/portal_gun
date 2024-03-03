@@ -118,6 +118,7 @@ public class PortalBlockBlockEntity extends BlockEntity {
         }
         //((PortalBlockBlockEntity) this.level.getBlockEntity(this.worldPosition.relative(this.getBlockState().getValue(PortalBlock.FACING)))).removePortal();
         this.destroyHardLightBridge();
+        this.destroyLaser();
         this.level.setBlockAndUpdate(this.worldPosition, this.replaced_block_blockstate);
         if (serverlevel != null) ForgeChunkManager.forceChunk(serverlevel, "portalgun", this.worldPosition, (int) chunk, (int) (chunk >> 32), false, false);
     }
@@ -135,6 +136,26 @@ public class PortalBlockBlockEntity extends BlockEntity {
                     tmp_pos = ((PortalBlockBlockEntity) level.getBlockEntity(tmp_pos)).link_pos;
                     direction = level.getBlockState(tmp_pos).getValue(PortalBlock.FACE);
                     tmp_pos = tmp_pos.relative(direction);
+                }
+            }
+        }
+    }
+
+    public void destroyLaser() {
+        if (level.getBlockState(this.worldPosition.relative(this.getBlockState().getValue(PortalBlock.FACE))).is(portalgun.LASER_BLOCK.get())) {
+            BlockState state = level.getBlockState(this.worldPosition);
+            Direction direction = state.getValue(PortalBlock.FACE);
+            BlockPos tmp_pos = this.worldPosition.relative(direction);
+            while (level.getBlockState(tmp_pos).is(portalgun.LASER_BLOCK.get())) {
+                level.setBlock(tmp_pos, Blocks.AIR.defaultBlockState(), 15);
+                tmp_pos = tmp_pos.relative(direction);
+                if (level.getBlockState(tmp_pos).is(portalgun.PORTAL_BLOCK.get())) {
+                    if (direction != level.getBlockState(tmp_pos).getValue(PortalBlock.FACE).getOpposite()) break;
+                    tmp_pos = ((PortalBlockBlockEntity) level.getBlockEntity(tmp_pos)).link_pos;
+                    direction = level.getBlockState(tmp_pos).getValue(PortalBlock.FACE);
+                    tmp_pos = tmp_pos.relative(direction);
+                } else if (level.getBlockState(tmp_pos).is(portalgun.LASER_CATCHER.get())) {
+                    level.setBlock(tmp_pos, level.getBlockState(tmp_pos).setValue(LaserCatcher.ACTIVE, false), 0);
                 }
             }
         }

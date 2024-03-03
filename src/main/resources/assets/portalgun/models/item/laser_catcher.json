@@ -1,0 +1,12 @@
+{
+    "parent": "portalgun:block/laser_catcher",
+    "display": {
+        "firstperson_righthand": {"rotation": [0, 45, 0], "scale": [0.5, 0.5, 0.5]},
+        "firstperson_lefthand": {"rotation": [0, 45, 0], "scale": [0.4, 0.4, 0.4]},
+        "thirdperson_righthand": {"scale": [0.5, 0.5, 0.5]},
+        "thirdperson_lefthand": {"scale": [0.5, 0.5, 0.5]},
+        "gui": {"rotation": [22.5, 45, 0], "scale": [0.6, 0.6, 0.6]},
+        "fixed": {"scale": [0.5, 0.5, 0.5]},
+        "ground": {"scale": [0.5, 0.5, 0.5]}
+    }
+}
