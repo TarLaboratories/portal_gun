@@ -3,6 +3,7 @@ package com.tarlaboratories.portalgun;
 import java.util.HashSet;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -17,7 +18,9 @@ public class LaserEmitter extends AnyBlockEmitter {
     @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         deactivate(level, pos);
-        ApertureStoneCable.setSignalStrength(level, pos, 0, null, new HashSet<BlockPos>(), null);
+        for (Direction direction : Direction.values()) {
+            ApertureStoneCable.setSignalStrength(level, pos.relative(direction), 0, null, new HashSet<BlockPos>(), null);
+        }
     }
 
     @Override

@@ -1,8 +1,8 @@
 {
     "textures": {
-        "particle": "portalgun:block/laser_catcher_activated",
+        "particle": "portalgun:block/laser_catcher_active",
         "side": "portalgun:block/non_portalable_surface",
-        "front": "portalgun:block/laser_catcher_activated"
+        "front": "portalgun:block/laser_catcher_active"
     }, "elements": [
         {
             "from": [0, 0, 0],
