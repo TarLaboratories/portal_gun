@@ -1,8 +1,11 @@
 package com.tarlaboratories.portalgun;
 
+import java.util.List;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -52,6 +55,11 @@ public class EmancipationGridBlock extends HalfTransparentBlock {
 
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        List<EntityType<?>> emancipated_entites = List.of(
+            portalgun.WEIGHTED_CUBE_ENTITYTYPE.get(),
+            portalgun.COMPANION_CUBE_ENTITYTYPE.get(),
+            portalgun.REDIRECTION_CUBE_ENTITYTYPE.get()
+        );
         if (entity.getType() == EntityType.PLAYER) {
             Player player = (Player) entity;
             for (ItemStack itemstack : player.getInventory().items) {
@@ -59,6 +67,8 @@ public class EmancipationGridBlock extends HalfTransparentBlock {
                     PortalGunItem.clearPortals(level, itemstack);
                 }
             }
+        } else if (emancipated_entites.contains(entity.getType())) {
+            entity.remove(RemovalReason.KILLED);
         }
     }
 }

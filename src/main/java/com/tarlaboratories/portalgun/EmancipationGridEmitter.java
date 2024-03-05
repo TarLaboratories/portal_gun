@@ -1,5 +1,7 @@
 package com.tarlaboratories.portalgun;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -180,6 +182,11 @@ public class EmancipationGridEmitter extends Block {
 
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        List<EntityType<?>> emancipated_entites = List.of(
+            portalgun.WEIGHTED_CUBE_ENTITYTYPE.get(),
+            portalgun.COMPANION_CUBE_ENTITYTYPE.get(),
+            portalgun.REDIRECTION_CUBE_ENTITYTYPE.get()
+        );
         if (!state.getValue(IS_ACTIVE)) return;
         if (entity.getType() == EntityType.PLAYER) {
             Player player = (Player) entity;
@@ -188,7 +195,7 @@ public class EmancipationGridEmitter extends Block {
                     PortalGunItem.clearPortals(level, itemstack);
                 }
             }
-        } else if (entity.getType() == portalgun.WEIGHTED_CUBE_ENTITYTYPE.get()) {
+        } else if (emancipated_entites.contains(entity.getType())) {
             entity.remove(RemovalReason.KILLED);
         }
     }
