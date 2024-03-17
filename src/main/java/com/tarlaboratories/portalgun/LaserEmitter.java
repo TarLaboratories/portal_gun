@@ -25,6 +25,6 @@ public class LaserEmitter extends AnyBlockEmitter {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return defaultBlockState().setValue(IS_ACTIVE, false).setValue(FACING, context.getClickedFace());
+        return defaultBlockState().setValue(IS_ACTIVE, false).setValue(FACING, context.getNearestLookingDirection().getOpposite());
     }
 }

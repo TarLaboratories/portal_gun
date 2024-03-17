@@ -42,7 +42,6 @@ public class PortalBlockBlockEntity extends BlockEntity {
 
     public BlockPos link_pos;
     public BlockState replaced_block_blockstate;
-    private static final Minecraft minecraft = Minecraft.getInstance();
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public PortalBlockBlockEntity(BlockPos pos, BlockState state) {

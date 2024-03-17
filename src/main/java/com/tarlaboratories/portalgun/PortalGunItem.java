@@ -74,8 +74,8 @@ public class PortalGunItem extends Item {
             BlockEntityType PORTAL_BLOCK_ENTITY_TYPE = RegistryObject.create(new ResourceLocation("portalgun:portal_block_blockentity"), ForgeRegistries.BLOCK_ENTITY_TYPES).get();
             if (tag.contains("orange_portal_pos")) ORANGE_PORTAL_BLOCKENTITY = level.getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("orange_portal_pos")));
             if (tag.contains("blue_portal_pos")) BLUE_PORTAL_BLOCKENTITY = level.getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("blue_portal_pos")));
-            if (ORANGE_PORTAL_BLOCKENTITY != null) ((PortalBlockBlockEntity) ORANGE_PORTAL_BLOCKENTITY).destroyHardLightBridge();
-            if (BLUE_PORTAL_BLOCKENTITY != null) ((PortalBlockBlockEntity) BLUE_PORTAL_BLOCKENTITY).destroyHardLightBridge();
+            if (ORANGE_PORTAL_BLOCKENTITY != null) {((PortalBlockBlockEntity) ORANGE_PORTAL_BLOCKENTITY).destroyHardLightBridge(); ((PortalBlockBlockEntity) ORANGE_PORTAL_BLOCKENTITY).destroyLaser();}
+            if (BLUE_PORTAL_BLOCKENTITY != null) {((PortalBlockBlockEntity) BLUE_PORTAL_BLOCKENTITY).destroyHardLightBridge(); ((PortalBlockBlockEntity) ORANGE_PORTAL_BLOCKENTITY).destroyLaser();}
             //if (ORANGE_PORTAL_BLOCKENTITY != null) {LOGGER.info(ORANGE_PORTAL_BLOCKENTITY.toString() + "============================================="); LOGGER.info(((PortalBlockBlockEntity) ORANGE_PORTAL_BLOCKENTITY).replaced_block_blockstate.toString());}
             //LOGGER.info(NbtUtils.readBlockPos(tag.getCompound("orange_portal_pos")).toString());
             //if (level.getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("orange_portal_pos"))) != null) LOGGER.info(level.getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("orange_portal_pos"))).toString());
@@ -165,7 +165,28 @@ public class PortalGunItem extends Item {
         LOGGER.info("Checking if it is whitelist mode: {}", Config.is_whitelist_mode);
         LOGGER.info("Result: {}", Config.portalable_blocks.contains(block) ^ !Config.is_whitelist_mode);
         LOGGER.info("===============================================");*/
-        List<Block> cannot_place_portal_on = List.of(Blocks.AIR, Blocks.CAVE_AIR, Blocks.VOID_AIR, portalgun.PORTAL_BLOCK.get(), portalgun.EMANCIPATION_GRID_BLOCK.get(), portalgun.EMANCIPATION_GRID_EMITTER.get());
+        List<Block> cannot_place_portal_on = List.of(
+            Blocks.AIR,
+            Blocks.CAVE_AIR,
+            Blocks.VOID_AIR,
+            portalgun.PORTAL_BLOCK.get(),
+            portalgun.EMANCIPATION_GRID_BLOCK.get(),
+            portalgun.EMANCIPATION_GRID_EMITTER.get(),
+            portalgun.APERTURESTONE_CABLE.get(),
+            portalgun.APERTURESTONE_CABLE_ENCASED.get(),
+            portalgun.APERTURESTONE_INDICATOR.get(),
+            portalgun.APERTURESTONE_LOGIC_GATE.get(),
+            portalgun.APERTURESTONE_REDSTONE_SWITCH.get(),
+            portalgun.APERTURESTONE_SOURCE.get(),
+            portalgun.CREATIVE_APERTURESTONE_SOURCE.get(),
+            portalgun.WEIGHTED_CUBE_DROPPER.get(),
+            portalgun.COMPANION_CUBE_DROPPER.get(),
+            portalgun.HARD_LIGHT_BRIDGE_EMITTER.get(),
+            portalgun.HARD_LIGHT_BRIDGE.get(),
+            portalgun.LASER_CATCHER.get(),
+            portalgun.LASER_EMITTER.get(),
+            portalgun.LASER_BLOCK.get()
+        );
         return ((Config.portalable_blocks.contains(block)) ^ !Config.is_whitelist_mode) & !cannot_place_portal_on.contains(block);
     }
 

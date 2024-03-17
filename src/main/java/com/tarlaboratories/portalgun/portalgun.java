@@ -115,6 +115,7 @@ public class portalgun {
     public static final RegistryObject<Item> LASER_EMITTER_ITEM = ITEMS.register("laser_emitter", () -> new BlockItem(LASER_EMITTER.get(), new Item.Properties()));
     public static final RegistryObject<Item> LASER_CATCHER_ITEM = ITEMS.register("laser_catcher", () -> new BlockItem(LASER_CATCHER.get(), new Item.Properties()));
     public static final RegistryObject<Item> PEDESTAL_BUTTON_ITEM = ITEMS.register("pedestal_button", () -> new BlockItem(PEDESTAL_BUTTON.get(), new Item.Properties()));
+    public static final RegistryObject<Item> IDK_BRUH_SMTH = ITEMS.register("idk_bruh_smth", () -> new Item(new Item.Properties()));
     
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("portalgun_mod_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)

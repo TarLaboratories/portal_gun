@@ -61,7 +61,6 @@ public class PortalBlock extends Block implements EntityBlock {
     private static final VoxelShape SOUTH_PANE = box(0.0D, 0.0D, 15.0D, 16.0D, 16.0D, 16.0D);
     private static final VoxelShape NORTH_PANE = box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 1.0D);
     protected static final VoxelShape START_SHAPE = Shapes.join(Shapes.block(), INSIDE, BooleanOp.ONLY_FIRST);
-    private static final Minecraft minecraft = Minecraft.getInstance();
     private BlockPos target_block_pos = null;
     private BlockState replaced_block = null;
 
