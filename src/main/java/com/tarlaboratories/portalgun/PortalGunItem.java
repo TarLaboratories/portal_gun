@@ -135,8 +135,8 @@ public class PortalGunItem extends Item {
                 player.displayClientMessage(Component.translatable("Cannot place portal here!"), true);
             }
         } catch (Exception e) {
-            player.displayClientMessage(Component.translatable("An error has occured! Removing all your portals..."), true);
-            clearPortals(level, player.getItemInHand(hand));
+            player.displayClientMessage(Component.translatable("An error has occured! Couldn't place portal"), true);
+            //clearPortals(level, player.getItemInHand(hand));
             LOGGER.error("An exception has occured while trying to place portal: {}", e.toString());
             e.printStackTrace();
         }
