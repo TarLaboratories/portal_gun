@@ -160,6 +160,20 @@ public class PortalBlockBlockEntity extends BlockEntity {
         }
     }
 
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag tag = new CompoundTag();
+        tag.put("link_pos", NbtUtils.writeBlockPos(link_pos));
+        tag.put("replaced_block", NbtUtils.writeBlockState(replaced_block_blockstate));
+        return tag;
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        link_pos = NbtUtils.readBlockPos(tag.getCompound("link_pos"));
+        replaced_block_blockstate = readBlockState(tag.getCompound("replaced_block"));
+    }
+
     /*public void renderPortal() {
         Entity cameraEntity = minecraft.cameraEntity;
         Camera camera = minecraft.gameRenderer.getMainCamera();
